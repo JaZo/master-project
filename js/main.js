@@ -23,11 +23,9 @@ function getAnnotations(data) {
 	var data = data||{};
 
 	data.mediaresource = sMediaresource;
-	data.startTime = 2318.84;
-	data.endTime = 2325.52;
 	
 	$.ajax(sAnnotationsURL, {
-		 dataType: "json",
+		 dataType: "jsonp",
 		 type: "GET",
 		 data: data,
 		 error: function(e) {console.log(e);},
