@@ -15,9 +15,14 @@
   <script>window.Popcorn || document.write('<script type="text/javascript" src="js/popcorn-complete.min.js"><\/script>')</script>
   <script type="text/javascript" src="js/popcorn.annotation.js"></script>
   <script type="text/javascript" src="js/jquery.peerbind.js"></script>
-  <script type="text/javascript" src="js/video.js"></script>
+  <script type="text/javascript" src="js/secondscreen.js"></script>
   
   <script type="text/javascript">
+    var sMediaresource = 'e2899e7f-67c1-4a08-9146-5a205f6de457';
+    var sAnnotationsURL = 'http://linkedtv.project.cwi.nl/explore/data/annotations';
+    
+  	var sLocalStorageKey = 'chosenAnnotations-'+sMediaresource;
+  	
   	var oPeerbindOptions = {
 		'endpointprefixes': [""],
 		'endpoint': "192.168.1.32:8080",
@@ -27,8 +32,9 @@
 
 </head>
 <body>
-  <video height="480" width="854" id="video" controls="">
-    <source src="http://stream5.noterik.com/progressive/stream5/domain/linkedtv/user/avro/video/4/rawvideo/2/raw.mp4" type="video/mp4">
-  </video>
+  <div id="container">
+	<div id="base"></div>
+	<div id="annotations"></div>
+  </div>
 </body>
 </html>

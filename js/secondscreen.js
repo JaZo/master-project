@@ -1,8 +1,12 @@
 var pop;
+var fLatency = 0;
 
 $(function(){
+	// set player to baseplayer (empty)
+	Popcorn.player( "baseplayer" );
+	
 	// create our popcorn instance
-	pop = Popcorn( "#video" );
+	pop = Popcorn.baseplayer( "#base" );
 	
 	// set our defaults
 	pop.defaults( "annotation", {
@@ -14,6 +18,25 @@ $(function(){
 	  	markChosen(options.id);
 		localStorage[sLocalStorageKey] = JSON.stringify(aAnnotations);
 	  }
+	});
+	
+	// bind events
+	$(document.body).peerbind(oPeerbindOptions, "ready", {
+		peer: function(e){
+			console.log('R: ready');
+		}
+	});
+	$(document.body).peerbind(oPeerbindOptions, "sync", {
+		peer: function(e){
+			e.peerData = JSON.parse(e.peerData);
+			console.log('R: sync '+e.peerData.paused);
+			fSeconds = parseFloat(e.peerData.currentTime||0) + fLatency;
+			if (e.peerData.paused) {
+				pop.pause(fSeconds);
+			} else {
+				pop.play(fSeconds);
+			}
+		}
 	});
 	
 	getAnnotations();
@@ -40,8 +63,9 @@ function getAnnotations(data) {
 				});
 			});
 			
-			// play video
-			pop.play();
+			// done loading, send ready and sync event
+			$(document.body).peertrigger( "ready" );
+			$(document.body).peertrigger( "sync" );
 			  
 			// parse localStorage
 			parseLocalStorage(sLocalStorageKey);
