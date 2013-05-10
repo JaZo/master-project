@@ -695,9 +695,9 @@ function requestHandler(req, res) {
 	}
 }
 
-//Boot the server on port 8080
+//Boot the server on port 6633
 try {
-	http.createServer(requestHandler).listen(8080);
+	http.createServer(requestHandler).listen(6633);
 } catch (e){
 	console.log("Exception: ");
 	console.log(e);
