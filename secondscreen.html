@@ -2,10 +2,12 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <link rel="shortcut icon" href="favicon.ico">
   <title>Master Project Jasper Zonneveld</title>
   
   <!-- CSS -->
+  <link href="css/bootstrap.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="css/style.css" media="screen" rel="stylesheet" type="text/css" />
 	
   <!-- JS -->
@@ -20,8 +22,10 @@
   <script type="text/javascript">
     var sMediaresource = 'e2899e7f-67c1-4a08-9146-5a205f6de457';
     var sAnnotationsURL = 'http://linkedtv.project.cwi.nl/explore/data/annotations';
+    var sChaptersURL = 'json/chapters.json';
     
   	var sLocalStorageKey = 'chosenAnnotations-'+sMediaresource;
+  	var aTypes = ["person", "location", "organization", "Chapter"];
   	
   	var oPeerbindOptions = {
 		'endpointprefixes': [""],
@@ -32,9 +36,8 @@
 
 </head>
 <body>
-  <div id="container">
 	<div id="base"></div>
 	<div id="annotations"></div>
-  </div>
+	<iframe id="iframe" width="75%" height="100%" frameBorder="0" scrolling="yes" src="http://nl.m.wikipedia.org/"></iframe>
 </body>
 </html>

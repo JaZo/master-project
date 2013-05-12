@@ -38,16 +38,13 @@
 
     if ( target && !target.firstChild ) {
       target.appendChild ( container = document.createElement( "div" ) );
-      container.style.width = "inherit";
-      container.style.height = "inherit";
-      container.style.overflow = "auto";
     } else {
       container = target.firstChild;
     }
 
     contentDiv.style.display = "none";
     contentDiv.id = "annotation-" + options.id;
-    contentDiv.className = "annotation";
+    contentDiv.className = "btn btn-primary annotation";
 
     //  Default to up if options.direction is non-existant or not up or down
     options.direction = options.direction || "up";
@@ -73,13 +70,9 @@
     if (typeof(options.onclick) == "string") {
     	options.onclick = window[options.onclick];
     }
-
-    i++;
     
-    annotationElement = document.createElement( "span" );
-    annotationElement.innerHTML = options.label;
     if (typeof(options.onclick) == "function") {
-	    annotationElement.onclick = function(e) {
+    	contentDiv.onclick = function(e) {
 	    	try {
 	    		options.onclick(e, options);
 	    	} catch (error) {
@@ -87,6 +80,11 @@
 	    	}
 	    };
     }
+
+    i++;
+    
+    annotationElement = document.createElement( "span" );
+    annotationElement.innerHTML = options.label;
 
     contentDiv.appendChild(annotationElement);
 

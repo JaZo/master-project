@@ -24,6 +24,7 @@ $(function(){
 	$(document.body).peerbind(oPeerbindOptions, "ready", {
 		peer: function(e){
 			console.log('R: ready');
+			$(document.body).peertrigger( "sync" );
 		}
 	});
 	$(document.body).peerbind(oPeerbindOptions, "sync", {
@@ -47,20 +48,36 @@ function getAnnotations(data) {
 
 	data.mediaresource = sMediaresource;
 	
-	$.ajax(sAnnotationsURL, {
-		 dataType: "jsonp",
+	$.ajax(sChaptersURL, {
+		 dataType: "json",
 		 type: "GET",
 		 data: data,
 		 error: function(e) {console.log(e);},
 		 success: function(o) {
-			// add annotations
-			$(o.annotations).each(function(i,e) {
-				pop.annotation({
-				  annotation: e.annotation,
-				  start: e.startTime,
-				  end: e.endTime,
-				  label: e.label
-				});
+			 // get annotations for each chapter
+			 $(o.annotations).each(function(i,e) {
+				 data.startTime = e.startTime;
+				 data.endTime = e.endTime;
+				 $.ajax(sAnnotationsURL, {
+					 dataType: "jsonp",
+					 type: "GET",
+					 data: data,
+					 error: function(e) {console.log(e);},
+					 success: function(o) {
+						// add annotations
+						$(o.annotations).each(function(j,f) {
+							if (aTypes.indexOf(f.type) > -1) {
+								pop.annotation({
+								  annotation: f.annotation,
+								  start: f.startTime,
+								  // use chapter endTime
+								  end: e.endTime,
+								  label: f.label
+								});
+							}
+						});
+					}
+				 });
 			});
 			
 			// done loading, send ready and sync event
@@ -74,7 +91,7 @@ function getAnnotations(data) {
 }
 
 function markChosen(id) {
-	document.getElementById('annotation-'+id).className += " chosen";
+	document.getElementById('annotation-'+id).className += " btn-success";
 }
 
 function parseLocalStorage(key){
