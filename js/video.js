@@ -34,6 +34,7 @@ $(function(){
 	// send sync events on playing/pause/seeked
 	pop.on( "playing", function(e){
 		syncVideo();
+		toggleCode(false);
 	});
 	pop.on( "pause", function(e){
 		syncVideo();
@@ -94,7 +95,7 @@ function initCode(bShow) {
 }
 
 function toggleCode(bShow) {
-	if (bShow == true || $('#overlay').css('top') == "-255px") {
+	if (bShow == true || (bShow != false && $('#overlay').css('top') == "-255px")) {
 		bShow = true;
 		sTop = "0px";
 		sText = "Verberg tweede scherm link";
