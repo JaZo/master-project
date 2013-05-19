@@ -2,6 +2,18 @@ var pop;
 var fLatency = 0;
 
 $(function(){
+	// set hash with UUID
+	var sUuid = Mp.Main.getUuid(false);
+	Mp.Main.setHash(sUuid);
+	oPeerbindOptions.regstring = sUuid;
+	
+	// TODO: Update QR and regstring and re-bind peerbind
+	/*
+	$(window).on('hashchange', function() {
+		oPeerbindOptions.regstring = Mp.Main.getHash();
+	});
+	*/
+	
 	// set player to baseplayer (empty)
 	Popcorn.player( "baseplayer" );
 	
@@ -13,6 +25,7 @@ $(function(){
 	  // set a default element target id and onclick function
 	  target: "annotations",
 	  onclick: function(e, options) {
+		//searchArticle(options.label, $('#iframe'));
 	  	aAnnotations = (localStorage[sLocalStorageKey])? JSON.parse(localStorage[sLocalStorageKey]) : {};
 	  	aAnnotations[options.id] = options.label;
 	  	markChosen(options.id);
@@ -83,9 +96,10 @@ function getAnnotations(data) {
 			// done loading, send ready and sync event
 			$(document.body).peertrigger( "ready" );
 			$(document.body).peertrigger( "sync" );
-			  
+			
 			// parse localStorage
 			parseLocalStorage(sLocalStorageKey);
+			
 		}
 	});
 }
@@ -101,4 +115,26 @@ function parseLocalStorage(key){
 			markChosen(key);
 		}
 	}
+}
+
+function searchArticle(sQuery, $iframe){
+	var data = {};
+	data.query = sQuery;
+	
+	$.ajax(sSearchURL, {
+		 dataType: "jsonp",
+		 type: "GET",
+		 data: data,
+		 error: function(e) {console.log(e);},
+		 success: function(o) {
+			// change src
+			if (o.results.length > 0) {
+				$iframe.attr('src', getArticleURL(o.results[0].docno));
+			}
+		}
+	 });
+}
+
+function getArticleURL(sDocno) {
+	return sArticleBaseURL + sDocno.replace(" ","_");
 }

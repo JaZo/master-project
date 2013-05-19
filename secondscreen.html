@@ -17,6 +17,8 @@
   <script>window.Popcorn || document.write('<script type="text/javascript" src="js/popcorn-complete.min.js"><\/script>')</script>
   <script type="text/javascript" src="js/popcorn.annotation.js"></script>
   <script type="text/javascript" src="js/jquery.peerbind.js"></script>
+  <script type="text/javascript" src="js/math.uuid.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/secondscreen.js"></script>
   
   <script type="text/javascript">
@@ -24,13 +26,16 @@
     var sAnnotationsURL = 'http://linkedtv.project.cwi.nl/explore/data/annotations';
     var sChaptersURL = 'json/chapters.json';
     
+    var sSearchURL = 'http://192.168.1.32:8080/results.jsp';
+    var sArticleBaseURL = 'http://nl.m.wikipedia.org/wiki/';
+    
   	var sLocalStorageKey = 'chosenAnnotations-'+sMediaresource;
   	var aTypes = ["person", "location", "organization", "Chapter"];
   	
   	var oPeerbindOptions = {
 		'endpointprefixes': [""],
 		'endpoint': "zonneveld.me:6633",
-		'type': ""
+		'type': "string"
 	};
   </script>
 
@@ -38,6 +43,6 @@
 <body>
 	<div id="base"></div>
 	<div id="annotations"></div>
-	<iframe id="iframe" width="75%" height="100%" frameBorder="0" scrolling="yes" src="http://nl.m.wikipedia.org/"></iframe>
+	<iframe id="iframe" width="75%" height="100%" src="http://nl.m.wikipedia.org/"></iframe>
 </body>
 </html>

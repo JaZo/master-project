@@ -141,13 +141,13 @@ function getPeersetPrefix(type, urlString, data) {
 			peerset = getPeersetPage(urlString);
 			break;
 		case "ip":
-			peerset = getPeersetIp(urlString, data /*the ip*/ );
+			peerset = getPeersetIp(data /*the ip*/ );
 			break;
 		case "geo":
-			peerset = getPeersetGeo(urlString, data /*the lat/long*/ );
+			peerset = getPeersetGeo(data /*the lat/long*/ );
 			break;
 		case "string":
-			peerset = getPeersetString(urlString, data /*the string*/ );
+			peerset = getPeersetString(data /*the string*/ );
 			break;
 	}
 	return peerset;
@@ -164,11 +164,9 @@ function getPeersetDomain(urlString) {
 	}
 }
 
-function getPeersetIp(urlString, ip) {
+function getPeersetIp(ip) {
 	try {
-		var urlObj = url.parse(urlString);
-
-		var fullPath = urlObj.host + (urlObj.pathname ? urlObj.pathname : "") + "-" + ip;
+		var fullPath = ip;
 		fullPath = fullPath.replace(/[^a-z0-9A-Z]*/g, "");
 
 		return fullPath;
@@ -191,16 +189,14 @@ function getPeersetPage(urlString) {
 	}
 }
 
-function getPeersetGeo(urlString, latData) {
+function getPeersetGeo(latData) {
 	try {
 		var latNLong = latData.split(/,/);
 
 		var lat = Math.round(parseFloat(latNLong[0]) * 100);
 		var lng = Math.round(parseFloat(latNLong[1]) * 100);
 
-		var urlObj = url.parse(urlString);
-
-		var fullPath = urlObj.host + (urlObj.pathname ? urlObj.pathname : "") + "-" + lat + "-" + lng;
+		var fullPath = lat + "-" + lng;
 		fullPath = fullPath.replace(/[^a-z0-9A-Z]*/g, "");
 
 		return fullPath;
@@ -210,10 +206,9 @@ function getPeersetGeo(urlString, latData) {
 	}
 }
 
-function getPeersetString(url, strVal) {
+function getPeersetString(strVal) {
 	try {
-		var fullPath = getPeersetPage(url);
-		return fullPath + "-" + strVal;
+		return strVal;
 	} catch (ex) {
 		console.log("Exception: ");
 		console.log(ex);

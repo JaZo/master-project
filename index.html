@@ -16,14 +16,18 @@
   <script>window.Popcorn || document.write('<script type="text/javascript" src="js/popcorn-complete.min.js"><\/script>')</script>
   <script type="text/javascript" src="js/popcorn.annotation.js"></script>
   <script type="text/javascript" src="js/jquery.peerbind.js"></script>
+  <script type="text/javascript" src="js/math.uuid.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/video.js"></script>
+  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=initGapi"></script>
   
   <script type="text/javascript">
   	var oPeerbindOptions = {
 		'endpointprefixes': [""],
 		'endpoint': "zonneveld.me:6633",
-		'type': ""
+		'type': "string"
 	};
+  	var sGapiKey = 'AIzaSyClG0kW4Zhh1NbL678Gj_rD6d_szNcTHUs';
   </script>
 
 </head>
@@ -31,5 +35,13 @@
   <video height="480" width="854" id="video" controls="">
     <source src="http://stream5.noterik.com/progressive/stream5/domain/linkedtv/user/avro/video/4/rawvideo/2/raw.mp4" type="video/mp4">
   </video>
+  <div id="overlay">
+    <a id="link" href="" target="blank"><img alt="QR" /><span>LINK</span></a>
+    <p>
+      Scan de QR-code of gebruik<br>onderstaande code:<br>
+      <span id="code">CODE</span>
+    </p>
+    <a id="toggle"><span>Toon tweede scherm link</span> <i class="icon-chevron-down"></i></a>
+  </div>
 </body>
 </html>
