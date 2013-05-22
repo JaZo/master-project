@@ -17,7 +17,7 @@ Mp.Main = {
 	},
 	
 	promptUuid: function() {
-		return prompt("Vul de code in die u bij de video heeft gekregen:");
+		return prompt("Vul de code in die u bij de video heeft gekregen:").toUpperCase();
 	},
 	
 	getHash: function() {
