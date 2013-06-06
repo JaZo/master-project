@@ -58,6 +58,7 @@ $(function(){
 
 function getAnnotations(data) {
 	var data = data||{};
+	var aAnnotationsAdded = [];
 
 	data.mediaresource = sMediaresource;
 	
@@ -69,6 +70,7 @@ function getAnnotations(data) {
 		 success: function(o) {
 			 // get annotations for each chapter
 			 $(o.annotations).each(function(i,e) {
+				 aAnnotationsAdded[i] = [];
 				 data.startTime = e.startTime;
 				 data.endTime = e.endTime;
 				 $.ajax(sAnnotationsURL, {
@@ -79,7 +81,7 @@ function getAnnotations(data) {
 					 success: function(o) {
 						// add annotations
 						$(o.annotations).each(function(j,f) {
-							if (aTypes.indexOf(f.type) > -1) {
+							if (aTypes.indexOf(f.type) > -1 && aAnnotationsAdded[i].indexOf(f.label) == -1) {
 								pop.annotation({
 								  annotation: f.annotation,
 								  start: f.startTime,
@@ -87,6 +89,7 @@ function getAnnotations(data) {
 								  end: e.endTime,
 								  label: f.label
 								});
+								aAnnotationsAdded[i].push(f.label);
 							}
 						});
 					}
