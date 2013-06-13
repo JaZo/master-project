@@ -10,6 +10,8 @@
      * -Target is the id of the DOM element that you want the annotations to appear in. This element must be in the DOM
      * -Annotation is the identifier of the current annotation
      * -Label is the content of the current annotation
+     * -Thumbnail is the thumbnail of the current annotation ( optional )
+     * -Article is the Wikipedia article linked to the current annotation ( optional )
      * -Direction specifies whether the timeline will grow from the top or the bottom, receives input as "UP" or "DOWN" ( optional )
      * -onclick is a function or name of function that will be executed when the annotation is clicked. Parameters given are the click event and the options object ( optional )
      * @param {Object} options
@@ -65,7 +67,7 @@
       }
 
     }
-    
+
     // convert function name reference to function
     if (typeof(options.onclick) == "string") {
     	options.onclick = window[options.onclick];
@@ -82,6 +84,12 @@
     }
 
     i++;
+
+    if (typeof(options.thumbnail) == "string") {
+      thumbnailElement = document.createElement( "img" );
+      thumbnailElement.src = options.thumbnail;
+      contentDiv.appendChild(thumbnailElement);
+    }
     
     annotationElement = document.createElement( "span" );
     annotationElement.innerHTML = options.label;
@@ -112,7 +120,7 @@
 
     about: {
       name: "Popcorn Annotation Plugin",
-      version: "0.2",
+      version: "0.3",
       author: "Jasper Zonneveld",
       website: "jasper.zonneveld.me"
     },
@@ -139,6 +147,18 @@
         elem: "input",
         type: "text",
         label: "Label"
+      },
+      thumbnail: {
+        elem: "input",
+        type: "text",
+        label: "Thumbnail",
+        optional: true
+      },
+      article: {
+        elem: "input",
+        type: "text",
+        label: "Article",
+        optional: true
       },
       direction: {
         elem: "select",

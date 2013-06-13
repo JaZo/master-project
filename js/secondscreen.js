@@ -25,11 +25,7 @@ $(function(){
 	  // set a default element target id and onclick function
 	  target: "annotations",
 	  onclick: function(e, options) {
-		//searchArticle(options.label, $('#iframe'));
-	  	aAnnotations = (localStorage[sLocalStorageKey])? JSON.parse(localStorage[sLocalStorageKey]) : {};
-	  	aAnnotations[options.id] = options.label;
-	  	markChosen(options.id);
-		localStorage[sLocalStorageKey] = JSON.stringify(aAnnotations);
+		openArticle(options.article, $('#iframe'));
 	  }
 	});
 	
@@ -52,7 +48,7 @@ $(function(){
 			}
 		}
 	});
-	
+
 	getAnnotations();
 });
 
@@ -61,7 +57,7 @@ function getAnnotations(data) {
 	var aAnnotationsAdded = [];
 
 	data.mediaresource = sMediaresource;
-	
+
 	$.ajax(sChaptersURL, {
 		 dataType: "json",
 		 type: "GET",
@@ -74,70 +70,38 @@ function getAnnotations(data) {
 				 data.startTime = e.startTime;
 				 data.endTime = e.endTime;
 				 $.ajax(sAnnotationsURL, {
-					 dataType: "jsonp",
+					 dataType: "json",
 					 type: "GET",
 					 data: data,
 					 error: function(e) {console.log(e);},
 					 success: function(o) {
 						// add annotations
 						$(o.annotations).each(function(j,f) {
-							if (aTypes.indexOf(f.type) > -1 && aAnnotationsAdded[i].indexOf(f.label) == -1) {
-								pop.annotation({
-								  annotation: f.annotation,
-								  start: f.startTime,
-								  // use chapter endTime
-								  end: e.endTime,
-								  label: f.label
-								});
+							if (f.startTime >= e.startTime && f.startTime < e.endTime && aTypes.indexOf(f.type) > -1 && aAnnotationsAdded[i].indexOf(f.label) == -1) {
+                                pop.annotation({
+                                    annotation: f.annotation,
+                                    start: f.startTime,
+                                    end: e.endTime, // use chapter endTime
+                                    label: f.label,
+                                    thumbnail: f.thumbnail,
+                                    article: f.article
+                                });
 								aAnnotationsAdded[i].push(f.label);
 							}
 						});
+
 					}
 				 });
 			});
-			
+
 			// done loading, send ready and sync event
 			$(document.body).peertrigger( "ready" );
 			$(document.body).peertrigger( "sync" );
-			
-			// parse localStorage
-			parseLocalStorage(sLocalStorageKey);
 			
 		}
 	});
 }
 
-function markChosen(id) {
-	document.getElementById('annotation-'+id).className += " btn-success";
-}
-
-function parseLocalStorage(key){
-	if (localStorage[key]) {
-		aAnnotations = JSON.parse(localStorage[key]);
-		for (var key in aAnnotations) {
-			markChosen(key);
-		}
-	}
-}
-
-function searchArticle(sQuery, $iframe){
-	var data = {};
-	data.query = sQuery;
-	
-	$.ajax(sSearchURL, {
-		 dataType: "jsonp",
-		 type: "GET",
-		 data: data,
-		 error: function(e) {console.log(e);},
-		 success: function(o) {
-			// change src
-			if (o.results.length > 0) {
-				$iframe.attr('src', getArticleURL(o.results[0].docno));
-			}
-		}
-	 });
-}
-
-function getArticleURL(sDocno) {
-	return sArticleBaseURL + sDocno.replace(" ","_");
+function openArticle(sArticle, $iframe){
+    $iframe.attr('src', sArticle);
 }
