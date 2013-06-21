@@ -1,0 +1,93 @@
+@font-face {
+	font-family: 'icomoon-free';
+	src:url('../fonts/icomoon-free.eot');
+	src:url('../fonts/icomoon-free.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon-free.woff') format('woff'),
+		url('../fonts/icomoon-free.ttf') format('truetype'),
+		url('../fonts/icomoon-free.svg#icomoon-free') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'icomoon-free';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="ficon-"] {
+*/
+.ficon-play, .ficon-pause, .ficon-stop, .ficon-first, .ficon-backward, .ficon-forward, .ficon-last, .ficon-volume-high, .ficon-volume-medium, .ficon-volume-low, .ficon-volume-mute, .ficon-volume-mute-2, .ficon-volume-increase, .ficon-volume-decrease, .ficon-expand, .ficon-contract, .ficon-loop, .ficon-github {
+	font-family: 'icomoon-free';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.ficon-play:before {
+	content: "\e001";
+}
+.ficon-pause:before {
+	content: "\e000";
+}
+.ficon-stop:before {
+	content: "\e002";
+}
+.ficon-first:before {
+	content: "\e003";
+}
+.ficon-backward:before {
+	content: "\e004";
+}
+.ficon-forward:before {
+	content: "\e005";
+}
+.ficon-last:before {
+	content: "\e006";
+}
+.ficon-volume-high:before {
+	content: "\e007";
+}
+.ficon-volume-medium:before {
+	content: "\e008";
+}
+.ficon-volume-low:before {
+	content: "\e009";
+}
+.ficon-volume-mute:before {
+	content: "\e00a";
+}
+.ficon-volume-mute-2:before {
+	content: "\e00b";
+}
+.ficon-volume-increase:before {
+	content: "\e00c";
+}
+.ficon-volume-decrease:before {
+	content: "\e00d";
+}
+.ficon-expand:before {
+	content: "\e00e";
+}
+.ficon-contract:before {
+	content: "\e00f";
+}
+.ficon-loop:before {
+	content: "\e010";
+}
+.ficon-github:before {
+	content: "\e011";
+}

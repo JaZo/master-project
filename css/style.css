@@ -3,6 +3,7 @@ html, body {
 	width: 100%;
 	margin: 0;
 	padding: 0;
+    overflow: hidden;
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 body {
@@ -61,7 +62,9 @@ video:focus {
 #annotations {
 	background: white;
 	width: 25%;
-	height: 100%;
+	height: 95%;
+	height: -moz-calc(100% - 40px);
+	height: calc(100% - 40px);
 	float: left;
 	overflow: auto;
 	border-right: 1px solid #e2e2e2;
@@ -84,9 +87,51 @@ video:focus {
 #iframe {
 	background: white;
 	width: 75%;
-	height: 100%;
+	height: 95%;
+	height: -moz-calc(100% - 40px);
+	height: calc(100% - 40px);
 	display: block;
 	float: right;
 	border: none;
 	overflow: auto;
+}
+#controls {
+    height: 40px;
+    width: 100%;
+    padding: 3px 5px 0;
+    float: left;
+    background: white;
+    border-top: 1px solid #e2e2e2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#controls > * {
+    float: left;
+}
+#controls .control {
+    font-size: 30px;
+    cursor: pointer;
+}
+#controls #seekbar {
+    width: 90%;
+    width: -moz-calc(100% - 100px);
+    width: calc(100% - 100px);
+    margin: 11px 10px 0;
+    height: 8px;
+    background: lightgrey;
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+#controls #seekbar .seeker {
+    width: 40px;
+    height: 20px;
+    background: black;
+    display: block;
+    border-radius: 10px;
+    position: relative;
+    top: -6px;
+}
+#controls .time {
+    margin-top: 5px;
 }

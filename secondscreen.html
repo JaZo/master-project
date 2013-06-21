@@ -8,6 +8,7 @@
   
   <!-- CSS -->
   <link href="css/bootstrap.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/icons.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="css/style.css" media="screen" rel="stylesheet" type="text/css" />
 	
   <!-- JS -->
@@ -17,6 +18,7 @@
   <script type="text/javascript" src="http://popcornjs.org/code/dist/popcorn-complete.min.js"></script>
   <script>window.Popcorn || document.write('<script type="text/javascript" src="js/vendor/popcorn-complete.min.js"><\/script>')</script>
   <script type="text/javascript" src="js/vendor/math.uuid.js"></script>
+  <script type="text/javascript" src="js/jquery.draggable.js"></script>
   <script type="text/javascript" src="js/popcorn.annotation.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/secondscreen.js"></script>
@@ -27,7 +29,6 @@
     var sAnnotationsURL = 'json/annotations.json';
     var sChaptersURL = 'json/chapters.json';
     
-  	var sLocalStorageKey = 'chosenAnnotations-'+sMediaresource;
   	var aTypes = ["person", "location", "organization", "Chapter"];
   	
   	var oPeerbindOptions = {
@@ -42,5 +43,10 @@
 	<div id="base"></div>
 	<div id="annotations"></div>
 	<iframe id="iframe" width="75%" height="100%" src="http://nl.m.wikipedia.org/"></iframe>
+    <div id="controls">
+        <a class="control play-pause"><i class="ficon-play"></i></a>
+        <div id="seekbar"><a class="seeker"></a></div>
+        <span class="time">00:00</span>
+    </div>
 </body>
 </html>

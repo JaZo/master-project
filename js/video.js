@@ -27,6 +27,23 @@ $(function(){
 			syncVideo();
 		}
 	});
+    $(document.body).peerbind(oPeerbindOptions, "playpause", {
+        peer: function(e){
+            console.log('R: playpause');
+            playpause();
+        }
+    });
+    $(document.body).peerbind(oPeerbindOptions, "gotoTime", {
+        peer: function(e){
+            console.log('R: gotoTime '+e.peerData);
+            pop.currentTime(e.peerData);
+        }
+    });
+    $(document.body).peerbind(oPeerbindOptions, "getDuration", {
+        peer: function(e){
+            $(document.body).peertrigger( "getDuration", pop.duration());
+        }
+    });
 	
 	// create our popcorn instance
 	pop = Popcorn( "#video" );
@@ -56,6 +73,29 @@ function syncVideo(fCurrentTime) {
 		paused: bPaused,
 		currentTime: fCurrentTime
 	}));
+}
+
+function playpause() {
+    if (pop.paused()) {
+        pop.play();
+    } else {
+        pop.pause();
+    }
+}
+
+function toggleFullscreen() {
+    if (document.mozFullScreen) {
+        // Firefox
+        document.mozCancelFullScreen();
+    } else if (document.webkitIsFullScreen) {
+        // Webkit
+        document.webkitCancelFullScreen();
+    } else if (document.fullScreen) {
+        // HTML5
+        document.exitFullScreen();
+    } else {
+        // Not fullscreen -> make fullscreen, but how?
+    }
 }
 
 function initGapi() {

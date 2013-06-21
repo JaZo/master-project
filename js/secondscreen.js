@@ -1,5 +1,7 @@
 var pop;
 var fLatency = 0;
+var fDuration = 0;
+var bGotoCalled = false;
 
 $(function(){
 	// set hash with UUID
@@ -28,6 +30,31 @@ $(function(){
 		openArticle(options.article, $('#iframe'));
 	  }
 	});
+
+    pop.on( "play", function(e){
+        togglePaused(false);
+        $(document.body).peertrigger( "getDuration" );
+    });
+    pop.on( "pause", function(e){
+        togglePaused(true);
+    });
+    $('i.ficon-play').click(function(){
+        $(document.body).peertrigger( "playpause" );
+    });
+    $('.seeker').drags({
+        cursor: 'pointer',
+        direction:'horizontal',
+        max:{
+            left: $('#seekbar').offset().left,
+            right: $('#seekbar').offset().left + $('#seekbar').width() - $('#seekbar .seeker').width() + 2
+        },
+        onRelease: function(oOffset) {gotoTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')));},
+        onMove: function(oOffset) {updateTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')), $('.time'), true);}
+    });
+    pop.on( "timeupdate", function(e){
+        updateSeeker(pop.currentTime(), fDuration, $('#seekbar'));
+        updateTime(pop.roundTime(), $('.time'));
+    });
 	
 	// bind events
 	$(document.body).peerbind(oPeerbindOptions, "ready", {
@@ -36,20 +63,31 @@ $(function(){
 			$(document.body).peertrigger( "sync" );
 		}
 	});
-	$(document.body).peerbind(oPeerbindOptions, "sync", {
-		peer: function(e){
-			e.peerData = JSON.parse(e.peerData);
-			console.log('R: sync '+e.peerData.paused);
-			fSeconds = parseFloat(e.peerData.currentTime||0) + fLatency;
-			if (e.peerData.paused) {
-				pop.pause(fSeconds);
-			} else {
-				pop.play(fSeconds);
-			}
-		}
-	});
+    $(document.body).peerbind(oPeerbindOptions, "sync", {
+        peer: function(e){
+            e.peerData = JSON.parse(e.peerData);
+            console.log('R: sync '+e.peerData.paused);
+            fSeconds = parseFloat(e.peerData.currentTime||0) + fLatency;
+            if (e.peerData.paused) {
+                pop.pause(fSeconds);
+            } else {
+                pop.play(fSeconds);
+            }
+            bGotoCalled = false;
+        }
+    });
+    $(document.body).peerbind(oPeerbindOptions, "getDuration", {
+        peer: function(e){
+            console.log('R: duration '+e.peerData);
+            fDuration = parseFloat(e.peerData||0);
+        }
+    });
 
 	getAnnotations();
+
+    // Map touch events to mouse events
+    if (window.Touch) $('.seeker').on('touchstart touchmove touchend touchcancel',Mp.Main.touchHandler);
+
 });
 
 function getAnnotations(data) {
@@ -94,6 +132,13 @@ function getAnnotations(data) {
 				 });
 			});
 
+            // add one extra annotation far beyond the end of the video to work around a popcorn bug
+             pop.annotation({
+                 annotation: 'endfix',
+                 start: 1000000000,
+                 label: 'endfix'
+             });
+
 			// done loading, send ready and sync event
 			$(document.body).peertrigger( "ready" );
 			$(document.body).peertrigger( "sync" );
@@ -104,4 +149,42 @@ function getAnnotations(data) {
 
 function openArticle(sArticle, $iframe){
     $iframe.attr('src', sArticle);
+}
+
+function togglePaused(bPaused) {
+    if (bPaused) {
+        $('i.ficon-pause').removeClass('ficon-pause').addClass('ficon-play');
+    } else {
+        $('i.ficon-play').removeClass('ficon-play').addClass('ficon-pause');
+    }
+}
+
+function updateSeeker(fTime, fDuration, $seekbar) {
+    $seeker = $seekbar.find('.seeker').first();
+    if (!$seeker.hasClass('draggable') && !bGotoCalled) {
+        fProportion = fTime / fDuration;
+        iWidth = $seekbar.width() - $seeker.width() + 2;
+        $seeker.css('left', fProportion * iWidth);
+    }
+}
+
+function calculateGotoTime(fOffset, fDuration, $seekbar) {
+    $seeker = $seekbar.find('.seeker').first();
+    fProportion = fOffset / ($seekbar.width() - $seeker.width() + 2);
+    iTime = fProportion * fDuration;
+    return iTime;
+}
+
+function gotoTime(fTime) {
+    bGotoCalled = true;
+    $(document.body).peertrigger( "gotoTime", fTime);
+}
+
+function updateTime(iTime, $time, bForce) {
+    $seeker = $('#seekbar .seeker').first();
+    if (bForce || (!$seeker.hasClass('draggable') && !bGotoCalled)) {
+        iMinutes = Math.floor(iTime / 60);
+        iSeconds = Math.round(iTime - (iMinutes * 60));
+        $time.text(Mp.Main.pad(iMinutes, 2)+":"+Mp.Main.pad(iSeconds, 2));
+    }
 }
