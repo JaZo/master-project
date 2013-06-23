@@ -38,7 +38,7 @@ $(function(){
     pop.on( "pause", function(e){
         togglePaused(true);
     });
-    $('i.ficon-play').click(function(){
+    $('.control.play-pause').click(function(){
         $(document.body).peertrigger( "playpause" );
     });
     $('.seeker').drags({
@@ -54,6 +54,9 @@ $(function(){
     pop.on( "timeupdate", function(e){
         updateSeeker(pop.currentTime(), fDuration, $('#seekbar'));
         updateTime(pop.roundTime(), $('.time'));
+    });
+    $('.control.fullscreen').click(function(){
+        $(document.body).peertrigger( "fullscreen" );
     });
 	
 	// bind events
@@ -80,6 +83,12 @@ $(function(){
         peer: function(e){
             console.log('R: duration '+e.peerData);
             fDuration = parseFloat(e.peerData||0);
+        }
+    });
+    $(document.body).peerbind(oPeerbindOptions, "updateFullScreen", {
+        peer: function(e){
+            console.log('R: fullscreen '+e.peerData);
+            toggleFullScreen(JSON.parse(e.peerData));
         }
     });
 
@@ -156,6 +165,14 @@ function togglePaused(bPaused) {
         $('i.ficon-pause').removeClass('ficon-pause').addClass('ficon-play');
     } else {
         $('i.ficon-play').removeClass('ficon-play').addClass('ficon-pause');
+    }
+}
+
+function toggleFullScreen(bFullScreen) {
+    if (bFullScreen) {
+        $('i.ficon-expand').removeClass('ficon-expand').addClass('ficon-contract');
+    } else {
+        $('i.ficon-contract').removeClass('ficon-contract').addClass('ficon-expand');
     }
 }
 

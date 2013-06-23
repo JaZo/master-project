@@ -1,4 +1,5 @@
 var pop;
+var bFullScreen = false;
 
 $(function(){
 	// set hash with UUID
@@ -31,6 +32,12 @@ $(function(){
         peer: function(e){
             console.log('R: playpause');
             playpause();
+        }
+    });
+    $(document.body).peerbind(oPeerbindOptions, "fullscreen", {
+        peer: function(e){
+            console.log('R: fullscreen');
+            toggleFullScreen();
         }
     });
     $(document.body).peerbind(oPeerbindOptions, "gotoTime", {
@@ -83,19 +90,25 @@ function playpause() {
     }
 }
 
-function toggleFullscreen() {
-    if (document.mozFullScreen) {
-        // Firefox
-        document.mozCancelFullScreen();
-    } else if (document.webkitIsFullScreen) {
-        // Webkit
-        document.webkitCancelFullScreen();
-    } else if (document.fullScreen) {
-        // HTML5
-        document.exitFullScreen();
+function toggleFullScreen() {
+    if (bFullScreen) {
+        $('#overlay').fadeIn();
+        $('#video').animate({
+            width: '854',
+            height: '480'
+        });
+        bFullScreen = false;
     } else {
-        // Not fullscreen -> make fullscreen, but how?
+        $('#overlay').fadeOut();
+        $('#video').animate({
+            width: $(document).width(),
+            height: $(document).height()
+        }, 400, function() {
+            $('#video').css('width', '100%').css('height', '100%');
+        });
+        bFullScreen = true;
     }
+    $(document.body).peertrigger( "updateFullScreen", JSON.stringify(bFullScreen));
 }
 
 function initGapi() {
