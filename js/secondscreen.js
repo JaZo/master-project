@@ -1,6 +1,5 @@
 var pop;
 var fLatency = 0;
-var fDuration = 0;
 var bGotoCalled = false;
 var sCurrentPage = null;
 var aAnnotationsAdded = [];
@@ -40,7 +39,6 @@ $(function(){
 
     pop.on( "play", function(e){
         togglePaused(false);
-        $(document.body).peertrigger( "getDuration" );
     });
     pop.on( "pause", function(e){
         togglePaused(true);
@@ -71,7 +69,6 @@ $(function(){
 		peer: function(e){
 			console.log('R: ready');
 			$(document.body).peertrigger( "sync" );
-            $(document.body).peertrigger( "getDuration" );
 		}
 	});
     $(document.body).peerbind(oPeerbindOptions, "sync", {
