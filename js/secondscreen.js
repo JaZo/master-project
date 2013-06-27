@@ -119,8 +119,19 @@ $(function(){
                         $annotations.find('.annotation').filter(function(index){ return $(this).text() == value }).css("position","relative").css("left", 0);
                     }
                 });
+                // Color the buttons
+                var $visibleannotations = $annotations.find(".annotation").filter(function(index){ return $(this).css("position") == "relative" && $(this).css("display") == "block" });
+                $visibleannotations.each(function(key,value){
+                    $(value).removeClass(function(index, css){
+                        return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                    });
+                    $(value).addClass('color-'+(key+1));
+                    $(value).data('color', (key+1));
+                });
+                // Add page header
                 $annotations.children(":first").find('h2').remove();
                 $annotations.children(":first").children(":first").before("<h2>"+getCurrentPage()+"</h2>");
+                // Move aside the article-links
                 toggleArticles(false);
                 break;
         }
@@ -177,7 +188,7 @@ function getAnnotations(data) {
                                 pop.annotation({
                                     target:"annotations-alt",
                                     onclick: function(e, options) {
-                                        highlight(options.label);
+                                        highlight(options.label, $(e.target).data('color') || $(e.target).parent().data('color'));
                                     },
                                     annotation: f.annotation,
                                     start: f.startTime,
@@ -214,8 +225,8 @@ function openArticle(sArticle, $iframe){
     $iframe.attr('src', sUrl);
 }
 
-function highlight(mLabel) {
-    postMessage('highlight', {strings: mLabel});
+function highlight(mLabel, iColor) {
+    postMessage('highlight', {strings: mLabel, className:'color-'+(iColor || 1)});
 }
 
 function unhighlight() {

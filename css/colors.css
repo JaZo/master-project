@@ -1,0 +1,197 @@
+[class^="color-"],
+[class*=" color-"],
+[class^="color-"]:hover,
+[class*=" color-"]:hover {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+/***** COLOR 1 *****/
+.color-1 {
+    background-color: #0000CC;
+}
+#annotations-alt .color-1 {
+    background-image: -moz-linear-gradient(top, #0033FF, #0000CC);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0033FF), to(#0000CC));
+    background-image: -webkit-linear-gradient(top, #0033FF, #0000CC);
+    background-image: -o-linear-gradient(top, #0033FF, #0000CC);
+    background-image: linear-gradient(to bottom, #0033FF, #0000CC);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0033FF', endColorstr='#ff0000CC', GradientType=0);
+    border-color: #0000CC #0000CC #0000B3;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-1:hover {
+    background-color: #0000CC;
+}
+
+/***** COLOR 2 *****/
+.color-2 {
+    background-color: #CC9900;
+}
+#annotations-alt .color-2 {
+    background-image: -moz-linear-gradient(top, #FFCC00, #CC9900);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFCC00), to(#CC9900));
+    background-image: -webkit-linear-gradient(top, #FFCC00, #CC9900);
+    background-image: -o-linear-gradient(top, #FFCC00, #CC9900);
+    background-image: linear-gradient(to bottom, #FFCC00, #CC9900);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffFFCC00', endColorstr='#ffCC9900', GradientType=0);
+    border-color: #CC9900 #CC9900 #B38000;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-2:hover {
+    background-color: #CC9900;
+}
+
+/***** COLOR 3 *****/
+.color-3 {
+    background-color: #00CC1A;
+}
+#annotations-alt .color-3 {
+    background-image: -moz-linear-gradient(top, #00FF4D, #00CC1A);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00FF4D), to(#00CC1A));
+    background-image: -webkit-linear-gradient(top, #00FF4D, #00CC1A);
+    background-image: -o-linear-gradient(top, #00FF4D, #00CC1A);
+    background-image: linear-gradient(to bottom, #00FF4D, #00CC1A);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00FF4D', endColorstr='#ff00CC1A', GradientType=0);
+    border-color: #00CC1A #00CC1A #00B301;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-3:hover{
+    background-color: #00CC1A;
+}
+
+/***** COLOR 4 *****/
+.color-4 {
+    background-color: #CC1A00;
+}
+#annotations-alt .color-4 {
+    background-image: -moz-linear-gradient(top, #FF4D00, #CC1A00);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FF4D00), to(#CC1A00));
+    background-image: -webkit-linear-gradient(top, #FF4D00, #CC1A00);
+    background-image: -o-linear-gradient(top, #FF4D00, #CC1A00);
+    background-image: linear-gradient(to bottom, #FF4D00, #CC1A00);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffFF4D00', endColorstr='#ffCC1A00', GradientType=0);
+    border-color: #CC1A00 #CC1A00 #B30100;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-4:hover {
+    background-color: #CC1A00;
+}
+
+/***** COLOR 5 *****/
+.color-5 {
+    background-color: #9900CC;
+}
+#annotations-alt .color-5 {
+    background-image: -moz-linear-gradient(top, #CC00FF, #9900CC);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#CC00FF), to(#9900CC));
+    background-image: -webkit-linear-gradient(top, #CC00FF, #9900CC);
+    background-image: -o-linear-gradient(top, #CC00FF, #9900CC);
+    background-image: linear-gradient(to bottom, #CC00FF, #9900CC);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffCC00FF', endColorstr='#ff9900CC', GradientType=0);
+    border-color: #9900CC #9900CC #8000B3;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-5:hover {
+    background-color: #9900CC;
+}
+
+/***** COLOR 6 *****/
+.color-6 {
+    background-color: #CC0000;
+}
+#annotations-alt .color-6 {
+    background-image: -moz-linear-gradient(top, #FF0033, #CC0000);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FF0033), to(#CC0000));
+    background-image: -webkit-linear-gradient(top, #FF0033, #CC0000);
+    background-image: -o-linear-gradient(top, #FF0033, #CC0000);
+    background-image: linear-gradient(to bottom, #FF0033, #CC0000);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffFF0033', endColorstr='#ffCC0000', GradientType=0);
+    border-color: #CC0000 #CC0000 #B30000;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-6:hover {
+    background-color: #CC0000;
+}
+
+/***** COLOR 7 *****/
+.color-7 {
+    background-color: #00CC99;
+}
+#annotations-alt .color-7 {
+    background-image: -moz-linear-gradient(top, #00FFCC, #00CC99);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00FFCC), to(#00CC99));
+    background-image: -webkit-linear-gradient(top, #00FFCC, #00CC99);
+    background-image: -o-linear-gradient(top, #00FFCC, #00CC99);
+    background-image: linear-gradient(to bottom, #00FFCC, #00CC99);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00FFCC', endColorstr='#ff00CC99', GradientType=0);
+    border-color: #00CC99 #00CC99 #00B380;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-7:hover {
+    background-color: #00CC99;
+}
+
+/***** COLOR 8 *****/
+.color-8 {
+    background-color: #CCB147;
+}
+#annotations-alt .color-8 {
+    background-image: -moz-linear-gradient(top, #FFE47A, #CCB147);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFE47A), to(#CCB147));
+    background-image: -webkit-linear-gradient(top, #FFE47A, #CCB147);
+    background-image: -o-linear-gradient(top, #FFE47A, #CCB147);
+    background-image: linear-gradient(to bottom, #FFE47A, #CCB147);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffFFE47A', endColorstr='#ffCCB147', GradientType=0);
+    border-color: #CCB147 #CCB147 #B3982E;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-8:hover {
+    background-color: #CCB147;
+}
+
+/***** COLOR 9 *****/
+.color-9 {
+    background-color: #0080CC;
+}
+#annotations-alt .color-9 {
+    background-image: -moz-linear-gradient(top, #00B3FF, #0080CC);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00B3FF), to(#0080CC));
+    background-image: -webkit-linear-gradient(top, #00B3FF, #0080CC);
+    background-image: -o-linear-gradient(top, #00B3FF, #0080CC);
+    background-image: linear-gradient(to bottom, #00B3FF, #0080CC);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00B3FF', endColorstr='#ff0080CC', GradientType=0);
+    border-color: #0080CC #0080CC #0067B3;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-9:hover {
+    background-color: #0080CC;
+}
+
+/***** COLOR 10 *****/
+.color-10 {
+    background-color: #4762CC;
+}
+#annotations-alt .color-10 {
+    background-image: -moz-linear-gradient(top, #7A95FF, #4762CC);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#7A95FF), to(#4762CC));
+    background-image: -webkit-linear-gradient(top, #7A95FF, #4762CC);
+    background-image: -o-linear-gradient(top, #7A95FF, #4762CC);
+    background-image: linear-gradient(to bottom, #7A95FF, #4762CC);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7A95FF', endColorstr='#ff4762CC', GradientType=0);
+    border-color: #4762CC #4762CC #2E49B3;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+#annotations-alt .color-10:hover {
+    background-color: #4762CC;
+}

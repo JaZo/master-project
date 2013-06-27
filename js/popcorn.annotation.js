@@ -46,7 +46,7 @@
 
     contentDiv.style.display = "none";
     contentDiv.id = "annotation-" + options.target + "-" + options.id;
-    contentDiv.className = "btn btn-primary annotation";
+    contentDiv.className = "btn annotation";
 
     if ( target && container ) {
         container.appendChild( contentDiv );

@@ -1,3 +1,7 @@
-.highlight {
-    background-color: yellow;
+.indicator {
+    margin-left: 10px;
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    border-radius: 4px;
 }

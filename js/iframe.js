@@ -16,7 +16,8 @@ $(window).on('message', function(e){
             postMessage('setVisibleAnnotations', checkAnnotations(data));
             break;
         case 'highlight':
-            $content.highlight(data.strings, { wordsOnly: true });
+            $content.highlight(data.strings, { wordsOnly: true, className: data.className });
+            addIndicators(data.strings, data.className);
             break;
         case 'unhighlight':
             $content.unhighlight();
@@ -39,4 +40,12 @@ function checkAnnotations(aData) {
         }
     });
     return aReturn;
+}
+
+function addIndicators(sLabel, sClassName) {
+    var $headings = $content.find('.section').filter(function(index){ return $(this).find('span.'+sClassName).length > 0 }).children('.section_heading');
+    var element = document.createElement( "span" );
+    element.innerHTML = sLabel.charAt(0);
+    element.className = 'indicator '+sClassName;
+    $headings.append(element);
 }
