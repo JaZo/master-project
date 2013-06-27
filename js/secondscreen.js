@@ -116,7 +116,7 @@ $(function(){
                 $annotations.find(".annotation").css("position", "absolute").css("left", "-1000px");
                 $(data).each(function(key,value){
                     if (value != getCurrentPage()) {
-                        $annotations.find(".annotation:contains('"+value+"')").css("position","relative").css("left", 0);
+                        $annotations.find('.annotation').filter(function(index){ return $(this).text() == value }).css("position","relative").css("left", 0);
                     }
                 });
                 $annotations.children(":first").find('h2').remove();
@@ -164,14 +164,16 @@ function getAnnotations(data) {
 						// add annotations
 						$(o.annotations).each(function(j,f) {
 							if (f.startTime >= e.startTime && f.startTime < e.endTime && aTypes.indexOf(f.type) > -1 && aAnnotationsAdded[i].indexOf(f.label) == -1) {
-                                pop.annotation({
-                                    annotation: f.annotation,
-                                    start: f.startTime,
-                                    end: e.endTime, // use chapter endTime
-                                    label: f.label,
-                                    //thumbnail: f.thumbnail,
-                                    article: f.article
-                                });
+                                if (f.article) {
+                                    pop.annotation({
+                                        annotation: f.annotation,
+                                        start: f.startTime,
+                                        end: e.endTime, // use chapter endTime
+                                        label: f.label,
+                                        //thumbnail: f.thumbnail,
+                                        article: f.article
+                                    });
+                                }
                                 pop.annotation({
                                     target:"annotations-alt",
                                     onclick: function(e, options) {
@@ -181,7 +183,6 @@ function getAnnotations(data) {
                                     start: f.startTime,
                                     end: e.endTime, // use chapter endTime
                                     label: f.label,
-                                    //thumbnail: f.thumbnail,
                                     article: f.article
                                 });
 								aAnnotationsAdded[i].push(f.label);
@@ -277,7 +278,7 @@ function updateTime(iTime, $time, bForce) {
     var $seeker = $('#seekbar').find('.seeker').first();
     if (bForce || (!$seeker.hasClass('draggable') && !bGotoCalled)) {
         var iMinutes = Math.floor(iTime / 60);
-        var iSeconds = Math.round(iTime - (iMinutes * 60));
+        var iSeconds = Math.floor(iTime - (iMinutes * 60));
         $time.text(Mp.Main.pad(iMinutes, 2)+":"+Mp.Main.pad(iSeconds, 2));
     }
 }

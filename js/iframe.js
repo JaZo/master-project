@@ -16,8 +16,7 @@ $(window).on('message', function(e){
             postMessage('setVisibleAnnotations', checkAnnotations(data));
             break;
         case 'highlight':
-            console.log(data.strings);
-            $content.highlight(data.strings);
+            $content.highlight(data.strings, { wordsOnly: true });
             break;
         case 'unhighlight':
             $content.unhighlight();
@@ -32,7 +31,10 @@ function postMessage(sAction, mData) {
 function checkAnnotations(aData) {
     var aReturn = [];
     $(aData).each(function(key,value){
-        if($content.find("*:contains('"+value+"')").length > 0) {
+        var pattern = "\\b(" + value + ")\\b";
+        var re = new RegExp(pattern, "i");
+        var match = $content.text().match(re);
+        if(match) {
             aReturn.push(value);
         }
     });

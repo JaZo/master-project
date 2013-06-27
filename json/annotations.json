@@ -885,17 +885,30 @@
     "type" : "Chapter"
   },
   {
-	"thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Dongen_Netherlands.svg/200px-Dongen_Netherlands.svg.png",
-    "article" : "http://nl.m.wikipedia.org/wiki/Dongen_(plaats)",
+	"thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Kees_van_Dongen_(1938).png/200px-Kees_van_Dongen_(1938).png",
+    "article" : "http://nl.m.wikipedia.org/wiki/Kees_van_Dongen",
     "annotation" : "http://data.linkedtv.eu/annotation/b3a9724e-14f1-4001-8bbb-dd2991664191",
     "body" : "http://data.linkedtv.eu/entity/663291cb-963c-4b3e-a224-6f4f692431cc",
     "confidence" : "-1.0",
     "endTime" : 2500.2399999999998,
     "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
-    "label" : "Dongen",
+    "label" : "Kees van Dongen",
     "relevance" : "0.5",
     "startTime" : 2496.9589999999998,
     "type" : "location"
+  },
+  {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Piet_Mondriaan.jpg/200px-Piet_Mondriaan.jpg",
+    "article" : "http://nl.m.wikipedia.org/wiki/Piet_Mondriaan",
+    "annotation" : "http://data.linkedtv.eu/annotation/56a2a1f9-df24-4bb3-a263-5ecabeda9a30",
+    "body" : "http://data.linkedtv.eu/entity/e0cd5bc3-c703-49bb-9f22-9413c9a72889",
+    "confidence" : "-1.0",
+    "endTime" : 2500.2399999999998,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D787.52,791.76",
+    "label" : "Piet Mondriaan",
+    "relevance" : "0.5",
+    "startTime" : 2496.9589999999998,
+    "type" : "person"
   },
   {
 	"thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Paris_-_Eiffelturm_und_Marsfeld2.jpg/200px-Paris_-_Eiffelturm_und_Marsfeld2.jpg",
@@ -937,12 +950,14 @@
     "type" : "location"
   },
   {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Palazzo_Mancini.jpg/200px-Palazzo_Mancini.jpg",
+    "article" : "http://nl.m.wikipedia.org/wiki/Prix_de_Rome",
     "annotation" : "http://data.linkedtv.eu/annotation/f3232cf6-67e7-4a58-8cf5-0d43bd313f12",
     "body" : "http://data.linkedtv.eu/entity/4f21a942-b34f-4d01-b948-c23e4ea4ffae",
     "confidence" : "-1.0",
     "endTime" : 2500.2399999999998,
     "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
-    "label" : "Pri",
+    "label" : "Prix de Rome",
     "relevance" : "0.5",
     "startTime" : 2496.9589999999998,
     "type" : "organization"
@@ -972,6 +987,7 @@
     "type" : "person"
   },
   {
+    "article" : "http://nl.m.wikipedia.org/wiki/Jan_Sluijters",
     "annotation" : "http://data.linkedtv.eu/annotation/31eb819a-c601-4501-923e-916cd2b31fe7",
     "body" : "http://data.linkedtv.eu/entity/9c3b3fce-401a-4831-956c-5fcc94086eca",
     "confidence" : "-1.0",
