@@ -71,6 +71,7 @@ $(function(){
 		peer: function(e){
 			console.log('R: ready');
 			$(document.body).peertrigger( "sync" );
+            $(document.body).peertrigger( "getDuration" );
 		}
 	});
     $(document.body).peerbind(oPeerbindOptions, "sync", {
