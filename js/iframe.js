@@ -43,9 +43,11 @@ function checkAnnotations(aData) {
 }
 
 function addIndicators(sLabel, sClassName) {
-    var $headings = $content.find('.section').filter(function(index){ return $(this).find('span.'+sClassName).length > 0 }).children('.section_heading');
-    var element = document.createElement( "span" );
-    element.innerHTML = sLabel.charAt(0);
-    element.className = 'indicator '+sClassName;
-    $headings.append(element);
+    if ($content.find('.section_heading .'+sClassName).length == 0) {
+        var $headings = $content.find('.section').filter(function(index){ return $(this).find('span.'+sClassName).length > 0 }).children('.section_heading');
+        var element = document.createElement( "span" );
+        element.innerHTML = sLabel.charAt(0);
+        element.className = 'indicator '+sClassName;
+        $headings.append(element);
+    }
 }
