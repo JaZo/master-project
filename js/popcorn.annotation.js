@@ -12,7 +12,6 @@
      * -Label is the content of the current annotation
      * -Thumbnail is the thumbnail of the current annotation ( optional )
      * -Article is the Wikipedia article linked to the current annotation ( optional )
-     * -Direction specifies whether the timeline will grow from the top or the bottom, receives input as "UP" or "DOWN" ( optional )
      * -onclick is a function or name of function that will be executed when the annotation is clicked. Parameters given are the click event and the options object ( optional )
      * @param {Object} options
      *
@@ -36,7 +35,8 @@
     var target = document.getElementById( options.target ),
         contentDiv = document.createElement( "div" ),
         container,
-        goingUp = true;
+        thumbnailElement,
+        annotationElement;
 
     if ( target && !target.firstChild ) {
       target.appendChild ( container = document.createElement( "div" ) );
@@ -45,27 +45,11 @@
     }
 
     contentDiv.style.display = "none";
-    contentDiv.id = "annotation-" + options.id;
+    contentDiv.id = "annotation-" + options.target + "-" + options.id;
     contentDiv.className = "btn btn-primary annotation";
 
-    //  Default to up if options.direction is non-existant or not up or down
-    options.direction = options.direction || "up";
-    if ( options.direction.toLowerCase() === "down" ) {
-
-      goingUp = false;
-    }
-
     if ( target && container ) {
-      // if this isnt the first div added to the target div
-      if( goingUp ){
-        // insert the current div before the previous div inserted
-        container.insertBefore( contentDiv, container.firstChild );
-      }
-      else {
-
         container.appendChild( contentDiv );
-      }
-
     }
 
     // convert function name reference to function
@@ -90,7 +74,7 @@
       thumbnailElement.src = options.thumbnail;
       contentDiv.appendChild(thumbnailElement);
     }
-    
+
     annotationElement = document.createElement( "span" );
     annotationElement.innerHTML = options.label;
 
@@ -100,10 +84,6 @@
 
       start: function( event, options ) {
         contentDiv.style.display = "";
-
-        if( options.direction === "down" ) {
-          container.scrollTop = container.scrollHeight;
-        }
       },
 
       end: function( event, options ) {
@@ -120,7 +100,7 @@
 
     about: {
       name: "Popcorn Annotation Plugin",
-      version: "0.3",
+      version: "0.4",
       author: "Jasper Zonneveld",
       website: "jasper.zonneveld.me"
     },
@@ -158,12 +138,6 @@
         elem: "input",
         type: "text",
         label: "Article",
-        optional: true
-      },
-      direction: {
-        elem: "select",
-        options: [ "DOWN", "UP" ],
-        label: "Direction",
         optional: true
       },
       onclick: {

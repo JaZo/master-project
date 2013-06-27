@@ -692,7 +692,7 @@ function requestHandler(req, res) {
 
 //Boot the server on port 6633
 try {
-	http.createServer(requestHandler).listen(6633);
+	http.createServer(requestHandler).listen(process.env.VCAP_APP_PORT || 6633);
 } catch (e){
 	console.log("Exception: ");
 	console.log(e);

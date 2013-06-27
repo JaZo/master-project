@@ -20,6 +20,7 @@
   <script type="text/javascript" src="js/vendor/math.uuid.js"></script>
   <script type="text/javascript" src="js/jquery.draggable.js"></script>
   <script type="text/javascript" src="js/popcorn.annotation.js"></script>
+  <script type="text/javascript" src="js/popcorn.chapter.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/secondscreen.js"></script>
   
@@ -28,8 +29,9 @@
     //var sAnnotationsURL = 'http://linkedtv.project.cwi.nl/explore/data/annotations';
     var sAnnotationsURL = 'json/annotations.json';
     var sChaptersURL = 'json/chapters.json';
-    
-  	var aTypes = ["person", "location", "organization", "Chapter"];
+    var sProxyURL = 'http://master-project-proxy.eu01.aws.af.cm/';
+
+  	var aTypes = ["person", "location", "organization"];
   	
   	var oPeerbindOptions = {
 		'endpointprefixes': [""],
@@ -41,8 +43,10 @@
 </head>
 <body>
 	<div id="base"></div>
-	<div id="annotations"></div>
-	<iframe id="iframe" width="75%" height="100%" src="http://nl.m.wikipedia.org/"></iframe>
+    <div id="annotations-alt" class="annotations-container"></div>
+	<div id="annotations" class="annotations-container"></div>
+    <div id="annotations-overlay"><a>Open een ander artikel <i class="icon-chevron-down"></i></a></div>
+	<iframe id="iframe" width="75%" height="100%" src="http://master-project-proxy.eu01.aws.af.cm/"></iframe>
     <div id="controls">
         <a class="control play-pause"><i class="ficon-play"></i></a>
         <div id="seekbar"><a class="seeker"></a></div>

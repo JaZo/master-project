@@ -74,7 +74,7 @@ $(function(){
 
 function syncVideo(fCurrentTime) {
 	fCurrentTime = fCurrentTime||pop.currentTime();
-	bPaused = pop.paused();
+	var bPaused = pop.paused();
 	console.log('S: sync '+bPaused);
 	$(document.body).peertrigger( "sync", JSON.stringify({
 		paused: bPaused,
@@ -137,10 +137,11 @@ function initCode(bShow) {
 			console.log("URL Shortening failed");
 			console.log(response);
 		}
-		
-		$('#link').attr('href', sUrl);
-		$('#link img').attr('src', "http://chart.googleapis.com/chart?cht=qr&chs=150x150&chld=l|0&chl=" + sUrl);
-		$('#link span').text(sUrl);
+
+        var $link = $('#link');
+        $link.attr('href', sUrl);
+        $link.find('img').attr('src', "http://chart.googleapis.com/chart?cht=qr&chs=150x150&chld=l|0&chl=" + sUrl);
+        $link.find('span').text(sUrl);
 		
 		toggleCode(bShow);
 		
@@ -148,7 +149,9 @@ function initCode(bShow) {
 }
 
 function toggleCode(bShow) {
-	if (bShow == true || (bShow != false && $('#overlay').css('top') == "-255px")) {
+    var $overlay = $('#overlay');
+    var sTop, sText;
+	if (bShow == true || (bShow != false && $overlay.css('top') == "-255px")) {
 		bShow = true;
 		sTop = "0px";
 		sText = "Verberg tweede scherm link";
@@ -157,8 +160,9 @@ function toggleCode(bShow) {
 		sTop = "-255px";
 		sText = "Toon tweede scherm link";
 	}
-	$('#overlay').animate({top:sTop}, 600, function(){
-		$('#toggle span').text(sText);
-		$('#toggle i').toggleClass('icon-chevron-down', !bShow).toggleClass('icon-chevron-up', bShow);
+    $overlay.animate({top:sTop}, 600, function(){
+        var $toggle = $('#toggle');
+        $toggle.find('span').text(sText);
+        $toggle.find('i').toggleClass('icon-chevron-down', !bShow).toggleClass('icon-chevron-up', bShow);
 	});
 }

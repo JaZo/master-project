@@ -2,6 +2,8 @@ var pop;
 var fLatency = 0;
 var fDuration = 0;
 var bGotoCalled = false;
+var sCurrentPage = null;
+var aAnnotationsAdded = [];
 
 $(function(){
 	// set hash with UUID
@@ -23,12 +25,17 @@ $(function(){
 	pop = Popcorn.baseplayer( "#base" );
 	
 	// set our defaults
+    pop.defaults( "chapter", {
+        // set a default element target id
+        target: "annotations"
+    });
 	pop.defaults( "annotation", {
-	  // set a default element target id and onclick function
-	  target: "annotations",
-	  onclick: function(e, options) {
-		openArticle(options.article, $('#iframe'));
-	  }
+        // set a default element target id and onclick function
+        target: "annotations",
+        onclick: function(e, options) {
+            openArticle(options.article, $('#iframe'));
+            setCurrentPage(options.label);
+        }
 	});
 
     pop.on( "play", function(e){
@@ -91,8 +98,35 @@ $(function(){
             toggleFullScreen(JSON.parse(e.peerData));
         }
     });
+    $('#annotations-overlay a').click(function (e) {
+        toggleArticles(true);
+    });
 
-	getAnnotations();
+    $(window).on('message', function(e){
+        var action = e.originalEvent.data.split(':')[0];
+        var data = JSON.parse(e.originalEvent.data.replace(action, '').replace(/^:/, ''));
+        console.log('R: '+action);
+
+        switch(action) {
+            case 'iframeReady':
+                postMessage('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
+                break;
+            case 'setVisibleAnnotations':
+                var $annotations = $('#annotations-alt');
+                $annotations.find(".annotation").css("position", "absolute").css("left", "-1000px");
+                $(data).each(function(key,value){
+                    if (value != getCurrentPage()) {
+                        $annotations.find(".annotation:contains('"+value+"')").css("position","relative").css("left", 0);
+                    }
+                });
+                $annotations.children(":first").find('h2').remove();
+                $annotations.children(":first").children(":first").before("<h2>"+getCurrentPage()+"</h2>");
+                toggleArticles(false);
+                break;
+        }
+    });
+
+    getAnnotations();
 
     // Map touch events to mouse events
     if (window.Touch) $('.seeker').on('touchstart touchmove touchend touchcancel',Mp.Main.touchHandler);
@@ -101,7 +135,6 @@ $(function(){
 
 function getAnnotations(data) {
 	var data = data||{};
-	var aAnnotationsAdded = [];
 
 	data.mediaresource = sMediaresource;
 
@@ -114,6 +147,12 @@ function getAnnotations(data) {
 			 // get annotations for each chapter
 			 $(o.annotations).each(function(i,e) {
 				 aAnnotationsAdded[i] = [];
+                 pop.chapter({
+                     start: e.startTime,
+                     end: e.endTime,
+                     chapter: i,
+                     label: e.label
+                 });
 				 data.startTime = e.startTime;
 				 data.endTime = e.endTime;
 				 $.ajax(sAnnotationsURL, {
@@ -130,7 +169,19 @@ function getAnnotations(data) {
                                     start: f.startTime,
                                     end: e.endTime, // use chapter endTime
                                     label: f.label,
-                                    thumbnail: f.thumbnail,
+                                    //thumbnail: f.thumbnail,
+                                    article: f.article
+                                });
+                                pop.annotation({
+                                    target:"annotations-alt",
+                                    onclick: function(e, options) {
+                                        highlight(options.label);
+                                    },
+                                    annotation: f.annotation,
+                                    start: f.startTime,
+                                    end: e.endTime, // use chapter endTime
+                                    label: f.label,
+                                    //thumbnail: f.thumbnail,
                                     article: f.article
                                 });
 								aAnnotationsAdded[i].push(f.label);
@@ -157,7 +208,17 @@ function getAnnotations(data) {
 }
 
 function openArticle(sArticle, $iframe){
-    $iframe.attr('src', sArticle);
+    var sUrl = sArticle.replace('http://nl.m.wikipedia.org/', sProxyURL);
+    sUrl += '?base=' + encodeURIComponent(window.location.origin + window.location.pathname.replace('secondscreen.html', ''));
+    $iframe.attr('src', sUrl);
+}
+
+function highlight(mLabel) {
+    postMessage('highlight', {strings: mLabel});
+}
+
+function unhighlight() {
+    postMessage('unhighlight');
 }
 
 function togglePaused(bPaused) {
@@ -176,20 +237,35 @@ function toggleFullScreen(bFullScreen) {
     }
 }
 
+function toggleArticles(bShow) {
+    var $annotations = $('#annotations'),
+        $annotationsOverlay = $('#annotations-overlay');
+    if (bShow) {
+        $annotations.animate({left:0});
+        $annotationsOverlay.fadeOut();
+    } else {
+        var iWidth = $annotations.width();
+        var iLeft = iWidth * -1 + 30;
+        $annotationsOverlay.find('a').css('margin-top', (($annotations.height() - 190) / 2) + 'px');
+        $annotations.animate({left:iLeft}, 400, function() {
+            $annotationsOverlay.fadeIn();
+        });
+    }
+}
+
 function updateSeeker(fTime, fDuration, $seekbar) {
-    $seeker = $seekbar.find('.seeker').first();
+    var $seeker = $seekbar.find('.seeker').first();
     if (!$seeker.hasClass('draggable') && !bGotoCalled) {
-        fProportion = fTime / fDuration;
-        iWidth = $seekbar.width() - $seeker.width() + 2;
+        var fProportion = fTime / fDuration;
+        var iWidth = $seekbar.width() - $seeker.width() + 2;
         $seeker.css('left', fProportion * iWidth);
     }
 }
 
 function calculateGotoTime(fOffset, fDuration, $seekbar) {
-    $seeker = $seekbar.find('.seeker').first();
-    fProportion = fOffset / ($seekbar.width() - $seeker.width() + 2);
-    iTime = fProportion * fDuration;
-    return iTime;
+    var $seeker = $seekbar.find('.seeker').first();
+    var fProportion = fOffset / ($seekbar.width() - $seeker.width() + 2);
+    return fProportion * fDuration;
 }
 
 function gotoTime(fTime) {
@@ -198,10 +274,22 @@ function gotoTime(fTime) {
 }
 
 function updateTime(iTime, $time, bForce) {
-    $seeker = $('#seekbar .seeker').first();
+    var $seeker = $('#seekbar').find('.seeker').first();
     if (bForce || (!$seeker.hasClass('draggable') && !bGotoCalled)) {
-        iMinutes = Math.floor(iTime / 60);
-        iSeconds = Math.round(iTime - (iMinutes * 60));
+        var iMinutes = Math.floor(iTime / 60);
+        var iSeconds = Math.round(iTime - (iMinutes * 60));
         $time.text(Mp.Main.pad(iMinutes, 2)+":"+Mp.Main.pad(iSeconds, 2));
     }
+}
+
+function postMessage(sAction, mData) {
+    Mp.Main.postMessage(sAction, mData || null, sProxyURL, document.getElementById('iframe').contentWindow);
+}
+
+function setCurrentPage(sLabel) {
+    sCurrentPage = sLabel;
+}
+
+function getCurrentPage() {
+    return sCurrentPage;
 }

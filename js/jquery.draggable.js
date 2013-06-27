@@ -44,7 +44,8 @@
                 $selected = $(this).parent();
                 $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
             }
-            var drg_h = $selected.outerHeight(),
+            var offset,
+                drg_h = $selected.outerHeight(),
                 drg_w = $selected.outerWidth(),
                 pos_y = $selected.offset().top + drg_h - e.pageY,
                 pos_x = $selected.offset().left + drg_w - e.pageX;
@@ -54,18 +55,18 @@
                     case "vertical":
                         offset = {
                             top: e.pageY + pos_y - drg_h
-                        }
+                        };
                         break;
                     case "horizontal":
                         offset = {
                             left: e.pageX + pos_x - drg_w
-                        }
+                        };
                         break;
                     default:
                         offset = {
                             top: e.pageY + pos_y - drg_h,
                             left: e.pageX + pos_x - drg_w
-                        }
+                        };
                         break;
                 }
                 if (typeof offset.top != 'undefined' && typeof opt.max.top != 'undefined') {

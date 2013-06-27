@@ -51,6 +51,11 @@ Mp.Main = {
             first.target.dispatchEvent(simulatedEvent);
             event.preventDefault();
         }
+    },
+
+    postMessage: function(sAction, mData, sDomain, oWindow) {
+        var sMessage = sAction + ':' + JSON.stringify(mData);
+        oWindow.postMessage(sMessage, sDomain);
     }
 
 };
