@@ -41,5 +41,5 @@ http.createServer(function(req, res) {
             res.end();
         }
     });
-}).listen(process.env.VCAP_APP_PORT || 6633);
+}).listen(process.env.VCAP_APP_PORT || 6634);
 
