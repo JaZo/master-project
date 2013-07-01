@@ -1,6 +1,7 @@
 var pop;
 var fLatency = 0;
 var bGotoCalled = false;
+var bLoadIframeCalled = false;
 var sCurrentPage = null;
 var aAnnotationsAdded = [];
 
@@ -107,7 +108,9 @@ $(function(){
 
         switch(action) {
             case 'iframeReady':
-                postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
+                if (bLoadIframeCalled) {
+                    postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
+                }
                 break;
             case 'setVisibleAnnotations':
                 var $annotations = $('#annotations-alt');
@@ -131,6 +134,7 @@ $(function(){
                 $annotations.children(":first").children(":first").before("<h2>"+getCurrentPage()+"</h2>");
                 // Move aside the article-links
                 toggleArticles(false);
+                bLoadIframeCalled = false;
                 break;
         }
     });
@@ -221,6 +225,7 @@ function openArticle(sArticle, $iframe){
     var sUrl = sArticle.replace('http://nl.m.wikipedia.org/', sProxyURL);
     sUrl += '?base=' + encodeURIComponent(window.location.origin + window.location.pathname.replace('secondscreen.html', ''));
     $iframe.attr('src', sUrl);
+    bLoadIframeCalled = true;
 }
 
 function highlight(mLabel, iColor) {
