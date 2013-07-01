@@ -3,7 +3,7 @@ var $content;
 $(function(){
     $content = $('#content');
 
-    postMessage('iframeReady');
+    postMessageToParent('iframeReady');
 });
 
 $(window).on('message', function(e){
@@ -13,7 +13,7 @@ $(window).on('message', function(e){
 
     switch(action) {
         case 'checkAnnotations':
-            postMessage('setVisibleAnnotations', checkAnnotations(data));
+            postMessageToParent('setVisibleAnnotations', checkAnnotations(data));
             break;
         case 'highlight':
             $content.highlight(data.strings, { wordsOnly: true, className: data.className });
@@ -25,7 +25,7 @@ $(window).on('message', function(e){
     }
 });
 
-function postMessage(sAction, mData) {
+function postMessageToParent(sAction, mData) {
     Mp.Main.postMessage(sAction, mData || null, sBase, parent);
 }
 

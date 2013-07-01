@@ -107,7 +107,7 @@ $(function(){
 
         switch(action) {
             case 'iframeReady':
-                postMessage('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
+                postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
                 break;
             case 'setVisibleAnnotations':
                 var $annotations = $('#annotations-alt');
@@ -224,11 +224,11 @@ function openArticle(sArticle, $iframe){
 }
 
 function highlight(mLabel, iColor) {
-    postMessage('highlight', {strings: mLabel, className:'color-'+(iColor || 1)});
+    postMessageToIframe('highlight', {strings: mLabel, className:'color-'+(iColor || 1)});
 }
 
 function unhighlight() {
-    postMessage('unhighlight');
+    postMessageToIframe('unhighlight');
 }
 
 function togglePaused(bPaused) {
@@ -292,7 +292,7 @@ function updateTime(iTime, $time, bForce) {
     }
 }
 
-function postMessage(sAction, mData) {
+function postMessageToIframe(sAction, mData) {
     Mp.Main.postMessage(sAction, mData || null, sProxyURL, document.getElementById('iframe').contentWindow);
 }
 
