@@ -7,12 +7,12 @@ var http = require('http')
 , url = require('url')
 , fs = require('fs');
 
+var sBaseUrl = "http://linkedtv.project.cwi.nl/wikiproxy/";
 
 http.createServer(function(req, res) {
     var url_parts = url.parse(req.url, true);
     var sBase = decodeURIComponent(url_parts.query.base);
 
-    console.log(url_parts.query);
     if (url_parts.query.base) console.log('cool');
 
     request({uri: 'http://nl.m.wikipedia.org'+url_parts.pathname}, function(err, response, body){
@@ -20,7 +20,10 @@ http.createServer(function(req, res) {
         if(err && response.statusCode !== 200){console.log('Request error.');}
 
         // Add base-url
-        body = body.replace("<head>","<head>\n<base href=\"http://"+req.headers.host+"/\">");
+        body = body.replace("<head>","<head>\n<base href=\""+sBaseUrl+"\">");
+
+        // Remove first slash from all links so the base url is used
+        body = body.replace(/href="\/w/g, "href=\"w");
 
         if (url_parts.query.base) {
             // Inject styles and scripts from include file
@@ -41,5 +44,5 @@ http.createServer(function(req, res) {
             res.end();
         }
     });
-}).listen(process.env.VCAP_APP_PORT || 6634);
+}).listen(6634);
 
