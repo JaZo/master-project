@@ -121,7 +121,7 @@ $(function(){
                     }
                 });
                 // Color the buttons
-                var $visibleannotations = $annotations.find(".annotation").filter(function(index){ return $(this).css("position") == "relative" && $(this).css("display") == "block" });
+                var $visibleannotations = $annotations.find(".annotation.chapter-"+getCurrentChapter()).filter(function(index){ return $(this).css("position") == "relative" });
                 $visibleannotations.each(function(key,value){
                     $(value).removeClass(function(index, css){
                         return (css.match(/\bcolor-\S+/g) || []).join(' ');
@@ -183,6 +183,7 @@ function getAnnotations(data) {
                                         start: f.startTime,
                                         end: e.endTime, // use chapter endTime
                                         label: f.label,
+                                        chapter: i,
                                         //thumbnail: f.thumbnail,
                                         article: f.article
                                     });
@@ -196,6 +197,7 @@ function getAnnotations(data) {
                                     start: f.startTime,
                                     end: e.endTime, // use chapter endTime
                                     label: f.label,
+                                    chapter: i,
                                     article: f.article
                                 });
 								aAnnotationsAdded[i].push(f.label);
