@@ -22,6 +22,9 @@ $(window).on('message', function(e){
         case 'unhighlight':
             $content.unhighlight();
             break;
+        case 'openAllSections':
+            $content.find('.section_heading, .content_block').addClass('openSection');
+            break;
     }
 });
 

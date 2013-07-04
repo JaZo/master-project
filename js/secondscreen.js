@@ -119,6 +119,7 @@ $(function(){
             case 'iframeReady':
                 if (sMode == "A") {
                     // Alle secties openen voor baseline
+                    openAllSections();
                 } else if (sMode == "B") {
                     if (bLoadIframeCalled) {
                         postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
@@ -324,4 +325,8 @@ function setCurrentPage(sLabel) {
 
 function getCurrentPage() {
     return sCurrentPage;
+}
+
+function openAllSections() {
+    postMessageToIframe('openAllSections');
 }
