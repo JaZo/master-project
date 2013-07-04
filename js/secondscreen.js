@@ -97,6 +97,15 @@ $(function(){
             toggleFullScreen(JSON.parse(e.peerData));
         }
     });
+    $(document.body).peerbind(oPeerbindOptions, "setMode", {
+        peer: function(e){
+            console.log('R: mode '+e.peerData);
+            if (e.peerData) {
+                sMode = e.peerData;
+            }
+            $(document.body).peertrigger( "stateMode", sMode);
+        }
+    });
     $('#annotations-overlay a').click(function (e) {
         toggleArticles(true);
     });
@@ -108,33 +117,39 @@ $(function(){
 
         switch(action) {
             case 'iframeReady':
-                if (bLoadIframeCalled) {
-                    postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
+                if (sMode == "A") {
+                    // Alle secties openen voor baseline
+                } else if (sMode == "B") {
+                    if (bLoadIframeCalled) {
+                        postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
+                    }
                 }
                 break;
             case 'setVisibleAnnotations':
-                var $annotations = $('#annotations-alt');
-                $annotations.find(".annotation").css("position", "absolute").css("left", "-1000px");
-                $(data).each(function(key,value){
-                    if (value != getCurrentPage()) {
-                        $annotations.find('.annotation').filter(function(index){ return $(this).text() == value }).css("position","relative").css("left", 0);
-                    }
-                });
-                // Color the buttons
-                var $visibleannotations = $annotations.find(".annotation.chapter-"+getCurrentChapter()).filter(function(index){ return $(this).css("position") == "relative" });
-                $visibleannotations.each(function(key,value){
-                    $(value).removeClass(function(index, css){
-                        return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                if (sMode == "B") {
+                    var $annotations = $('#annotations-alt');
+                    $annotations.find(".annotation").css("position", "absolute").css("left", "-1000px");
+                    $(data).each(function(key,value){
+                        if (value != getCurrentPage()) {
+                            $annotations.find('.annotation').filter(function(index){ return $(this).text() == value }).css("position","relative").css("left", 0);
+                        }
                     });
-                    $(value).addClass('color-'+(key+1));
-                    $(value).data('color', (key+1));
-                });
-                // Add page header
-                $annotations.children(":first").find('h2').remove();
-                $annotations.children(":first").children(":first").before("<h2>"+getCurrentPage()+"</h2>");
-                // Move aside the article-links
-                toggleArticles(false);
-                bLoadIframeCalled = false;
+                    // Color the buttons
+                    var $visibleannotations = $annotations.find(".annotation.chapter-"+getCurrentChapter()).filter(function(index){ return $(this).css("position") == "relative" });
+                    $visibleannotations.each(function(key,value){
+                        $(value).removeClass(function(index, css){
+                            return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                        });
+                        $(value).addClass('color-'+(key+1));
+                        $(value).data('color', (key+1));
+                    });
+                    // Add page header
+                    $annotations.children(":first").find('h2').remove();
+                    $annotations.children(":first").children(":first").before("<h2>"+getCurrentPage()+"</h2>");
+                    // Move aside the article-links
+                    toggleArticles(false);
+                    bLoadIframeCalled = false;
+                }
                 break;
         }
     });

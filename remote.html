@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+  <link rel="shortcut icon" href="favicon.ico">
+  <title>Master Project Jasper Zonneveld</title>
+  
+  <!-- CSS -->
+  <link href="css/bootstrap.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/icons.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" media="screen" rel="stylesheet" type="text/css" />
+	
+  <!-- JS -->
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script>window.jQuery || document.write('<script type="text/javascript" src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+  <script type="text/javascript" src="js/vendor/jquery.peerbind.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <script type="text/javascript" src="js/remote.js"></script>
+  
+  <script type="text/javascript">
+  	var oPeerbindOptions = {
+		'endpointprefixes': [""],
+		'endpoint': "linkedtv.project.cwi.nl/peerbind",
+		'type': "string"
+	};
+  </script>
+
+</head>
+<body>
+	<div id="remote-controls">
+        <a id="setModeA" class="btn btn-primary">Mode A (baseline)</a>
+        <a id="setModeB" class="btn btn-primary">Mode B (enhanced)</a>
+        <br>
+        <br>
+        <br>
+        <a id="gotoIntroduction" class="btn btn-primary">Introductie</a><br><br>
+        <a id="gotoScene1" class="btn btn-primary">Tekening Jan Toorop</a><br><br>
+        <a id="gotoScene2" class="btn btn-primary">Zilver olie en azijn stel</a><br><br>
+        <a id="gotoScene3" class="btn btn-primary">Schildering Jan Sluijters</a>
+	</div>
+	<div id="remote-log"></div>
+</body>
+</html>
