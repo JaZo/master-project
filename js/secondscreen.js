@@ -48,6 +48,11 @@ $(function(){
             e.peerData = JSON.parse(e.peerData);
             var fSeconds = parseFloat(e.peerData.currentTime||0);
             console.log('R: sync '+e.peerData.paused+', '+fSeconds);
+            if (e.peerData.paused) {
+                pop.pause(fSeconds);
+            } else {
+                pop.play(fSeconds);
+            }
         }
     });
     $(document.body).peerbind(oPeerbindOptions, "setMode", {
