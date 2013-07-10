@@ -45,6 +45,17 @@
       "label":"Schildering Jan Sluijters",
       "confidence":0,
       "relevance":0
+    },
+    {
+      "annotation":"__bnode38",
+      "fragment":"http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t=900,1119",
+      "startTime":900,
+      "endTime":1119,
+      "body":"__bnode39",
+      "type":"Chapter",
+      "label":"Gele vaas",
+      "confidence":0,
+      "relevance":0
     }
   ]
 }

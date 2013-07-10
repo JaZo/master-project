@@ -51,6 +51,9 @@ $(function(){
     $('#gotoScene3').click(function (e) {
         gotoTime(627);
     });
+    $('#gotoScene4').click(function (e) {
+        gotoTime(900);
+    });
 
     // Get current mode
     setMode(false);

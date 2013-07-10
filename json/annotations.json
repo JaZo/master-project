@@ -335,6 +335,70 @@
     "relevance" : "0.5",
     "startTime" : 739,
     "type" : "location"
+  },
+  {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Nuclear_fission.svg/200px-Nuclear_fission.svg.png",
+    "article" : "http://nl.m.wikipedia.org/wiki/Uranium",
+    "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
+    "body" : "http://data.linkedtv.eu/entity/fb1ba0a6-9ba4-438d-9131-a449d81dcfba",
+    "confidence" : "-1.0",
+    "endTime" : 960,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
+    "label" : "Uranium",
+    "relevance" : "0.5",
+    "startTime" : 956,
+    "type" : "location"
+  },
+  {
+    "article" : "http://nl.m.wikipedia.org/wiki/Floris_Meydam",
+    "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
+    "body" : "http://data.linkedtv.eu/entity/fb1ba0a6-9ba4-438d-9131-a449d81dcfba",
+    "confidence" : "-1.0",
+    "endTime" : 990,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
+    "label" : "Floris Meydam",
+    "relevance" : "0.5",
+    "startTime" : 980,
+    "type" : "person"
+  },
+  {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Leerdam_-_Zuidwal.jpg/200px-Leerdam_-_Zuidwal.jpg",
+    "article" : "http://nl.m.wikipedia.org/wiki/Leerdam",
+    "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
+    "body" : "http://data.linkedtv.eu/entity/fb1ba0a6-9ba4-438d-9131-a449d81dcfba",
+    "confidence" : "-1.0",
+    "endTime" : 993,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
+    "label" : "Leerdam",
+    "relevance" : "0.5",
+    "startTime" : 983,
+    "type" : "location"
+  },
+  {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Wijntje.jpg/200px-Wijntje.jpg",
+    "article" : "http://nl.m.wikipedia.org/wiki/Glasfabriek_Leerdam",
+    "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
+    "body" : "http://data.linkedtv.eu/entity/fb1ba0a6-9ba4-438d-9131-a449d81dcfba",
+    "confidence" : "-1.0",
+    "endTime" : 1000,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
+    "label" : "Glasfabriek Leerdam",
+    "relevance" : "0.5",
+    "startTime" : 992,
+    "type" : "location"
+  },
+  {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Glass-Ball.jpg/200px-Glass-Ball.jpg",
+    "article" : "http://nl.m.wikipedia.org/wiki/Glaskunst",
+    "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
+    "body" : "http://data.linkedtv.eu/entity/fb1ba0a6-9ba4-438d-9131-a449d81dcfba",
+    "confidence" : "-1.0",
+    "endTime" : 1010,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
+    "label" : "Glaskunstenaar",
+    "relevance" : "0.5",
+    "startTime" : 1002,
+    "type" : "location"
   }
 ]
 }
