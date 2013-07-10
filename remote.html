@@ -15,10 +15,15 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   <script>window.jQuery || document.write('<script type="text/javascript" src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
   <script type="text/javascript" src="js/vendor/jquery.peerbind.js"></script>
+  <script type="text/javascript" src="http://popcornjs.org/code/dist/popcorn-complete.min.js"></script>
+  <script>window.Popcorn || document.write('<script type="text/javascript" src="js/vendor/popcorn-complete.min.js"><\/script>')</script>
+  <script type="text/javascript" src="js/jquery.draggable.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/remote.js"></script>
   
   <script type="text/javascript">
+    var fDuration = 1124.970703125;
+
   	var oPeerbindOptions = {
 		'endpointprefixes': [""],
 		'endpoint': "linkedtv.project.cwi.nl/peerbind",
@@ -28,6 +33,7 @@
 
 </head>
 <body>
+    <div id="base"></div>
 	<div id="remote-controls">
         <a id="setModeA" class="btn btn-primary">Mode A (baseline)</a>
         <a id="setModeB" class="btn btn-primary">Mode B (enhanced)</a>
@@ -40,6 +46,12 @@
         <a id="gotoScene3" class="btn btn-primary">Schildering Jan Sluijters</a><br><br>
         <a id="gotoScene4" class="btn btn-primary">Gele vaas</a>
 	</div>
+    <div id="controls">
+        <a class="control play-pause"><i class="ficon-play"></i></a>
+        <div id="seekbar"><a class="seeker"></a></div>
+        <span class="time">00:00</span>
+        <a class="control fullscreen"><i class="ficon-expand"></i></a>
+    </div>
 	<div id="remote-log"></div>
 </body>
 </html>

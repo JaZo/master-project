@@ -1,6 +1,4 @@
 var pop;
-var fLatency = 0;
-var bGotoCalled = false;
 var bLoadIframeCalled = false;
 var sCurrentPage = null;
 var aAnnotationsAdded = [];
@@ -38,33 +36,6 @@ $(function(){
         }
 	});
 
-    pop.on( "play", function(e){
-        togglePaused(false);
-    });
-    pop.on( "pause", function(e){
-        togglePaused(true);
-    });
-    $('.control.play-pause').click(function(){
-        $(document.body).peertrigger( "playpause" );
-    });
-    $('.seeker').drags({
-        cursor: 'pointer',
-        direction:'horizontal',
-        max:{
-            left: $('#seekbar').offset().left,
-            right: $('#seekbar').offset().left + $('#seekbar').width() - $('#seekbar .seeker').width() + 2
-        },
-        onRelease: function(oOffset) {gotoTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')));},
-        onMove: function(oOffset) {updateTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')), $('.time'), true);}
-    });
-    pop.on( "timeupdate", function(e){
-        updateSeeker(pop.currentTime(), fDuration, $('#seekbar'));
-        updateTime(pop.roundTime(), $('.time'));
-    });
-    $('.control.fullscreen').click(function(){
-        $(document.body).peertrigger( "fullscreen" );
-    });
-	
 	// bind events
 	$(document.body).peerbind(oPeerbindOptions, "ready", {
 		peer: function(e){
@@ -75,26 +46,8 @@ $(function(){
     $(document.body).peerbind(oPeerbindOptions, "sync", {
         peer: function(e){
             e.peerData = JSON.parse(e.peerData);
-            console.log('R: sync '+e.peerData.paused);
-            fSeconds = parseFloat(e.peerData.currentTime||0) + fLatency;
-            if (e.peerData.paused) {
-                pop.pause(fSeconds);
-            } else {
-                pop.play(fSeconds);
-            }
-            bGotoCalled = false;
-        }
-    });
-    $(document.body).peerbind(oPeerbindOptions, "getDuration", {
-        peer: function(e){
-            console.log('R: duration '+e.peerData);
-            fDuration = parseFloat(e.peerData||0);
-        }
-    });
-    $(document.body).peerbind(oPeerbindOptions, "updateFullScreen", {
-        peer: function(e){
-            console.log('R: fullscreen '+e.peerData);
-            toggleFullScreen(JSON.parse(e.peerData));
+            var fSeconds = parseFloat(e.peerData.currentTime||0);
+            console.log('R: sync '+e.peerData.paused+', '+fSeconds);
         }
     });
     $(document.body).peerbind(oPeerbindOptions, "setMode", {
@@ -106,7 +59,7 @@ $(function(){
             $(document.body).peertrigger( "stateMode", sMode);
         }
     });
-    $('#annotations-overlay a').click(function (e) {
+    $('#annotations-overlay').find('a').click(function (e) {
         toggleArticles(true);
     });
 
@@ -156,9 +109,6 @@ $(function(){
     });
 
     getAnnotations();
-
-    // Map touch events to mouse events
-    if (window.Touch) $('.seeker').on('touchstart touchmove touchend touchcancel',Mp.Main.touchHandler);
 
 });
 
@@ -254,22 +204,6 @@ function unhighlight() {
     postMessageToIframe('unhighlight');
 }
 
-function togglePaused(bPaused) {
-    if (bPaused) {
-        $('i.ficon-pause').removeClass('ficon-pause').addClass('ficon-play');
-    } else {
-        $('i.ficon-play').removeClass('ficon-play').addClass('ficon-pause');
-    }
-}
-
-function toggleFullScreen(bFullScreen) {
-    if (bFullScreen) {
-        $('i.ficon-expand').removeClass('ficon-expand').addClass('ficon-contract');
-    } else {
-        $('i.ficon-contract').removeClass('ficon-contract').addClass('ficon-expand');
-    }
-}
-
 function toggleArticles(bShow) {
     var $annotations = $('#annotations'),
         $annotationsOverlay = $('#annotations-overlay');
@@ -283,35 +217,6 @@ function toggleArticles(bShow) {
         $annotations.animate({left:iLeft}, 400, function() {
             $annotationsOverlay.fadeIn();
         });
-    }
-}
-
-function updateSeeker(fTime, fDuration, $seekbar) {
-    var $seeker = $seekbar.find('.seeker').first();
-    if (!$seeker.hasClass('draggable') && !bGotoCalled) {
-        var fProportion = fTime / fDuration;
-        var iWidth = $seekbar.width() - $seeker.width() + 2;
-        $seeker.css('left', fProportion * iWidth);
-    }
-}
-
-function calculateGotoTime(fOffset, fDuration, $seekbar) {
-    var $seeker = $seekbar.find('.seeker').first();
-    var fProportion = fOffset / ($seekbar.width() - $seeker.width() + 2);
-    return fProportion * fDuration;
-}
-
-function gotoTime(fTime) {
-    bGotoCalled = true;
-    $(document.body).peertrigger( "gotoTime", fTime);
-}
-
-function updateTime(iTime, $time, bForce) {
-    var $seeker = $('#seekbar').find('.seeker').first();
-    if (bForce || (!$seeker.hasClass('draggable') && !bGotoCalled)) {
-        var iMinutes = Math.floor(iTime / 60);
-        var iSeconds = Math.floor(iTime - (iMinutes * 60));
-        $time.text(Mp.Main.pad(iMinutes, 2)+":"+Mp.Main.pad(iSeconds, 2));
     }
 }
 

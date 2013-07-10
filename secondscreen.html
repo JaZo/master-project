@@ -18,8 +18,6 @@
   <script type="text/javascript" src="js/vendor/jquery.peerbind.js"></script>
   <script type="text/javascript" src="http://popcornjs.org/code/dist/popcorn-complete.min.js"></script>
   <script>window.Popcorn || document.write('<script type="text/javascript" src="js/vendor/popcorn-complete.min.js"><\/script>')</script>
-  <script type="text/javascript" src="js/vendor/math.uuid.js"></script>
-  <script type="text/javascript" src="js/jquery.draggable.js"></script>
   <script type="text/javascript" src="js/popcorn.annotation.js"></script>
   <script type="text/javascript" src="js/popcorn.chapter.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
@@ -27,7 +25,6 @@
   
   <script type="text/javascript">
     var sMediaresource = 'e2899e7f-67c1-4a08-9146-5a205f6de457';
-    var fDuration = 1124.970703125;
     //var sAnnotationsURL = 'http://linkedtv.project.cwi.nl/explore/data/annotations';
     var sAnnotationsURL = 'json/annotations.json';
     var sChaptersURL = 'json/chapters.json';
@@ -51,11 +48,5 @@
 	<div id="annotations" class="annotations-container"></div>
     <div id="annotations-overlay"><a>Open een ander artikel <i class="icon-chevron-down"></i></a></div>
 	<iframe id="iframe" width="75%" height="100%" src="http://linkedtv.project.cwi.nl/wikiproxy/"></iframe>
-    <div id="controls">
-        <a class="control play-pause"><i class="ficon-play"></i></a>
-        <div id="seekbar"><a class="seeker"></a></div>
-        <span class="time">00:00</span>
-        <a class="control fullscreen"><i class="ficon-expand"></i></a>
-    </div>
 </body>
 </html>

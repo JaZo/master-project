@@ -1,4 +1,7 @@
+var pop;
+var fLatency = 0;
 var sMode;
+var bGotoCalled = false;
 
 $(function(){
 	// set hash with UUID
@@ -13,6 +16,39 @@ $(function(){
 	});
 	*/
 
+    // set player to baseplayer (empty)
+    Popcorn.player( "baseplayer" );
+
+    // create our popcorn instance
+    pop = Popcorn.baseplayer( "#base" );
+
+    pop.on( "play", function(e){
+        togglePaused(false);
+    });
+    pop.on( "pause", function(e){
+        togglePaused(true);
+    });
+    $('.control.play-pause').click(function(){
+        $(document.body).peertrigger( "playpause" );
+    });
+    $('.seeker').drags({
+        cursor: 'pointer',
+        direction:'horizontal',
+        max:{
+            left: $('#seekbar').offset().left,
+            right: $('#seekbar').offset().left + $('#seekbar').width() - $('#seekbar .seeker').width() + 2
+        },
+        onRelease: function(oOffset) {gotoTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')));},
+        onMove: function(oOffset) {updateTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')), $('.time'), true);}
+    });
+    pop.on( "timeupdate", function(e){
+        updateSeeker(pop.currentTime(), fDuration, $('#seekbar'));
+        updateTime(pop.roundTime(), $('.time'));
+    });
+    $('.control.fullscreen').click(function(){
+        $(document.body).peertrigger( "fullscreen" );
+    });
+
     // bind events
     $(document.body).peerbind(oPeerbindOptions, "ready", {
         peer: function(e){
@@ -24,6 +60,24 @@ $(function(){
             e.peerData = JSON.parse(e.peerData);
             var fSeconds = parseFloat(e.peerData.currentTime||0);
             visualLog('R: sync '+e.peerData.paused+', '+fSeconds);
+            if (e.peerData.paused) {
+                pop.pause(fSeconds);
+            } else {
+                pop.play(fSeconds);
+            }
+            bGotoCalled = false;
+        }
+    });
+    $(document.body).peerbind(oPeerbindOptions, "getDuration", {
+        peer: function(e){
+            console.log('R: duration '+e.peerData);
+            fDuration = parseFloat(e.peerData||0);
+        }
+    });
+    $(document.body).peerbind(oPeerbindOptions, "updateFullScreen", {
+        peer: function(e){
+            console.log('R: fullscreen '+e.peerData);
+            toggleFullScreen(JSON.parse(e.peerData));
         }
     });
     $(document.body).peerbind(oPeerbindOptions, "stateMode", {
@@ -58,6 +112,9 @@ $(function(){
     // Get current mode
     setMode(false);
 
+    // Map touch events to mouse events
+    if (window.Touch) $('.seeker').on('touchstart touchmove touchend touchcancel',Mp.Main.touchHandler);
+
 });
 
 function gotoTime(fTime) {
@@ -71,4 +128,49 @@ function setMode(mode) {
 
 function visualLog(sText) {
     $('#remote-log').html(sText + '<br>' + $('#remote-log').html());
+}
+
+function togglePaused(bPaused) {
+    if (bPaused) {
+        $('i.ficon-pause').removeClass('ficon-pause').addClass('ficon-play');
+    } else {
+        $('i.ficon-play').removeClass('ficon-play').addClass('ficon-pause');
+    }
+}
+
+function toggleFullScreen(bFullScreen) {
+    if (bFullScreen) {
+        $('i.ficon-expand').removeClass('ficon-expand').addClass('ficon-contract');
+    } else {
+        $('i.ficon-contract').removeClass('ficon-contract').addClass('ficon-expand');
+    }
+}
+
+function updateSeeker(fTime, fDuration, $seekbar) {
+    var $seeker = $seekbar.find('.seeker').first();
+    if (!$seeker.hasClass('draggable') && !bGotoCalled) {
+        var fProportion = fTime / fDuration;
+        var iWidth = $seekbar.width() - $seeker.width() + 2;
+        $seeker.css('left', fProportion * iWidth);
+    }
+}
+
+function calculateGotoTime(fOffset, fDuration, $seekbar) {
+    var $seeker = $seekbar.find('.seeker').first();
+    var fProportion = fOffset / ($seekbar.width() - $seeker.width() + 2);
+    return fProportion * fDuration;
+}
+
+function gotoTime(fTime) {
+    bGotoCalled = true;
+    $(document.body).peertrigger( "gotoTime", fTime);
+}
+
+function updateTime(iTime, $time, bForce) {
+    var $seeker = $('#seekbar').find('.seeker').first();
+    if (bForce || (!$seeker.hasClass('draggable') && !bGotoCalled)) {
+        var iMinutes = Math.floor(iTime / 60);
+        var iSeconds = Math.floor(iTime - (iMinutes * 60));
+        $time.text(Mp.Main.pad(iMinutes, 2)+":"+Mp.Main.pad(iSeconds, 2));
+    }
 }
