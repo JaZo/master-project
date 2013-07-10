@@ -40,7 +40,7 @@ $(function(){
     });
 
     $('#gotoIntroduction').click(function (e) {
-        gotoTime(0);
+        gotoTime(41);
     });
     $('#gotoScene1').click(function (e) {
         gotoTime(140.1);

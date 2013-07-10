@@ -3,6 +3,19 @@
   "totalNumberOfResults":4321,
   "annotations": [
   {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Hermitage_Amsterdam_-_Ingang.JPG/280px-Hermitage_Amsterdam_-_Ingang.JPG",
+    "article" : "http://nl.m.wikipedia.org/wiki/Hermitage_Amsterdam",
+    "annotation" : "http://data.linkedtv.eu/annotation/1a13b53a-e2fa-47f4-9d6f-0f67cb2331d0",
+    "body" : "http://data.linkedtv.eu/entity/4834a4ed-88e7-436d-b378-35a9d477b193",
+    "confidence" : "-1.0",
+    "endTime" : 50,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D13.399,14.959",
+    "label" : "Hermitage",
+    "relevance" : "0.5",
+    "startTime" : 42,
+    "type" : "location"
+  },
+  {
 	"thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Okerk2.jpg/220px-Okerk2.jpg",
     "article" : "http://nl.m.wikipedia.org/wiki/Amsterdam",
     "annotation" : "http://data.linkedtv.eu/annotation/113954e7-b075-452b-bcfd-54138f531183",
@@ -21,24 +34,11 @@
     "annotation" : "http://data.linkedtv.eu/annotation/1a13b53a-e2fa-47f4-9d6f-0f67cb2331d0",
     "body" : "http://data.linkedtv.eu/entity/4834a4ed-88e7-436d-b378-35a9d477b193",
     "confidence" : "-1.0",
-    "endTime" : 14.959,
+    "endTime" : 60,
     "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D13.399,14.959",
     "label" : "Amstel",
     "relevance" : "0.5",
-    "startTime" : 13.398999999999999,
-    "type" : "location"
-  },
-  {
-    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Hermitage_Amsterdam_-_Ingang.JPG/280px-Hermitage_Amsterdam_-_Ingang.JPG",
-    "article" : "http://nl.m.wikipedia.org/wiki/Hermitage_Amsterdam",
-    "annotation" : "http://data.linkedtv.eu/annotation/1a13b53a-e2fa-47f4-9d6f-0f67cb2331d0",
-    "body" : "http://data.linkedtv.eu/entity/4834a4ed-88e7-436d-b378-35a9d477b193",
-    "confidence" : "-1.0",
-    "endTime" : 50,
-    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D13.399,14.959",
-    "label" : "Hermitage",
-    "relevance" : "0.5",
-    "startTime" : 42,
+    "startTime" : 57,
     "type" : "location"
   },
   {
