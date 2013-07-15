@@ -13,8 +13,6 @@ http.createServer(function(req, res) {
     var url_parts = url.parse(req.url, true);
     var sBase = decodeURIComponent(url_parts.query.base);
 
-    if (url_parts.query.base) console.log('cool');
-
     request({uri: 'http://nl.m.wikipedia.org'+url_parts.pathname}, function(err, response, body){
         //Just a basic error check
         if(err && response.statusCode !== 200){console.log('Request error.');}
@@ -26,6 +24,9 @@ http.createServer(function(req, res) {
         body = body.replace(/href="\/w/g, "href=\"w");
 
         if (url_parts.query.base) {
+            // Add base param to urls
+            body = body.replace(/href="wiki\/(.*?)"/g, "href=\"wiki/$1?base="+encodeURIComponent(url_parts.query.base)+"\"");
+
             // Inject styles and scripts from include file
             fs.readFile('include.html', 'utf8', function(err, data) {
                 if (err) throw err;
