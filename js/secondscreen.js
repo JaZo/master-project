@@ -1,7 +1,7 @@
 var pop;
-var bLoadIframeCalled = false;
 var sCurrentPage = null;
 var aAnnotationsAdded = [];
+var aAnnotationsColors = [];
 
 $(function(){
 	// set hash with UUID
@@ -61,11 +61,13 @@ $(function(){
             if (e.peerData) {
                 sMode = e.peerData;
             }
+            if (sMode == "A") {
+                deColorAnnotations();
+            } else if (sMode == "B") {
+                colorAnnotations();
+            }
             $(document.body).peertrigger( "stateMode", sMode);
         }
-    });
-    $('#annotations-overlay').find('a').click(function (e) {
-        toggleArticles(true);
     });
 
     $(window).on('message', function(e){
@@ -75,39 +77,14 @@ $(function(){
 
         switch(action) {
             case 'iframeReady':
-                if (sMode == "A") {
-                    // Alle secties openen voor baseline
-                    openAllSections();
-                } else if (sMode == "B") {
-                    if (bLoadIframeCalled) {
-                        postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
-                    }
-                }
-                break;
-            case 'setVisibleAnnotations':
+                // Alle secties openen voor baseline
+                openAllSections();
                 if (sMode == "B") {
-                    var $annotations = $('#annotations-alt');
-                    $annotations.find(".annotation").css("position", "absolute").css("left", "-1000px");
-                    $(data).each(function(key,value){
-                        if (value != getCurrentPage()) {
-                            $annotations.find('.annotation').filter(function(index){ return $(this).text() == value }).css("position","relative").css("left", 0);
-                        }
-                    });
-                    // Color the buttons
-                    var $visibleannotations = $annotations.find(".annotation.chapter-"+getCurrentChapter()).filter(function(index){ return $(this).css("position") == "relative" });
-                    $visibleannotations.each(function(key,value){
-                        $(value).removeClass(function(index, css){
-                            return (css.match(/\bcolor-\S+/g) || []).join(' ');
-                        });
-                        $(value).addClass('color-'+(key+1));
-                        $(value).data('color', (key+1));
-                    });
-                    // Add page header
-                    $annotations.children(":first").find('h2').remove();
-                    $annotations.children(":first").children(":first").before("<h2>"+getCurrentPage()+"</h2>");
-                    // Move aside the article-links
-                    toggleArticles(false);
-                    bLoadIframeCalled = false;
+                    var aAnnotationsInChapter = aAnnotationsAdded[(getCurrentChapter()-1)].slice();
+                    var aAnnotationsColorsInChapter = aAnnotationsColors[(getCurrentChapter()-1)].slice();
+                    aAnnotationsColorsInChapter.splice(aAnnotationsInChapter.indexOf(getCurrentPage()), 1);
+                    aAnnotationsInChapter.splice(aAnnotationsInChapter.indexOf(getCurrentPage()), 1);
+                    postMessageToIframe('highlightAnnotations', {labels: aAnnotationsInChapter, colors: aAnnotationsColorsInChapter});
                 }
                 break;
         }
@@ -134,7 +111,7 @@ function getAnnotations(data) {
                  pop.chapter({
                      start: e.startTime,
                      end: e.endTime,
-                     chapter: i,
+                     chapter: (i+1),
                      label: e.label
                  });
 				 data.startTime = e.startTime;
@@ -151,27 +128,15 @@ function getAnnotations(data) {
                                 if (f.article) {
                                     pop.annotation({
                                         annotation: f.annotation,
-                                        start: f.startTime,
+                                        start: e.startTime, // use chapter startTime
                                         end: e.endTime, // use chapter endTime
                                         label: f.label,
-                                        chapter: i,
+                                        chapter: (i+1),
                                         //thumbnail: f.thumbnail,
                                         article: f.article
                                     });
+                                    aAnnotationsAdded[i].push(f.label);
                                 }
-                                pop.annotation({
-                                    target:"annotations-alt",
-                                    onclick: function(e, options) {
-                                        highlight(options.label, $(e.target).data('color') || $(e.target).parent().data('color'));
-                                    },
-                                    annotation: f.annotation,
-                                    start: f.startTime,
-                                    end: e.endTime, // use chapter endTime
-                                    label: f.label,
-                                    chapter: i,
-                                    article: f.article
-                                });
-								aAnnotationsAdded[i].push(f.label);
 							}
 						});
 
@@ -198,31 +163,6 @@ function openArticle(sArticle, $iframe){
     var sUrl = sArticle.replace('http://nl.m.wikipedia.org/', sProxyURL);
     sUrl += '?base=' + encodeURIComponent(window.location.origin + window.location.pathname.replace('secondscreen.html', ''));
     $iframe.attr('src', sUrl);
-    bLoadIframeCalled = true;
-}
-
-function highlight(mLabel, iColor) {
-    postMessageToIframe('highlight', {strings: mLabel, className:'color-'+(iColor || 1)});
-}
-
-function unhighlight() {
-    postMessageToIframe('unhighlight');
-}
-
-function toggleArticles(bShow) {
-    var $annotations = $('#annotations'),
-        $annotationsOverlay = $('#annotations-overlay');
-    if (bShow) {
-        $annotations.animate({left:0});
-        $annotationsOverlay.fadeOut();
-    } else {
-        var iWidth = $annotations.width();
-        var iLeft = iWidth * -1 + 30;
-        $annotationsOverlay.find('a').css('margin-top', (($annotations.height() - 190) / 2) + 'px');
-        $annotations.animate({left:iLeft}, 400, function() {
-            $annotationsOverlay.fadeIn();
-        });
-    }
 }
 
 function postMessageToIframe(sAction, mData) {
@@ -239,4 +179,29 @@ function getCurrentPage() {
 
 function openAllSections() {
     postMessageToIframe('openAllSections');
+}
+
+function colorAnnotations() {
+    aAnnotationsColors = [];
+    var $annotations = $('#annotations');
+    // Color the buttons
+    for (var i = 0; i < aAnnotationsAdded.length; i++) {
+        aAnnotationsColors[i] = [];
+        var $annotationlist = $annotations.find(".annotation.chapter-"+(i+1));
+        $annotationlist.each(function(key,value){
+            $(value).removeClass(function(index, css){
+                return (css.match(/\bcolor-\S+/g) || []).join(' ');
+            });
+            $(value).addClass('color-'+(key+1));
+            aAnnotationsColors[i].push((key+1));
+        });
+    }
+}
+
+function deColorAnnotations() {
+    var $annotations = $('#annotations');
+    var $annotationlist = $annotations.find('.annotation');
+    $annotationlist.removeClass(function(index, css){
+        return (css.match(/\bcolor-\S+/g) || []).join(' ');
+    });
 }

@@ -5,3 +5,39 @@
     text-align: center;
     border-radius: 4px;
 }
+.header .indicator {
+    font-family: Georgia, serif;
+    font-size: 21.6px;
+    line-height: 30px;
+    height: 30px;
+}
+
+#mw-mf-main-menu-button,
+.search-box,
+#mw-mf-menu-page,
+#sjabloon_zie,
+.vatop.infobox,
+.thumb,
+.gallerytext,
+.gallerybox,
+#commonscat,
+.languageSelector {
+    display: none !important;
+}
+
+.header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0 20px;
+    display: none;
+    text-align: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.header a {
+    float: right;
+    cursor: pointer;
+}

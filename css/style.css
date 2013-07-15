@@ -85,38 +85,6 @@ video:focus {
     margin: 0 0 10px;
     text-align: center;
 }
-#annotations {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-#annotations-alt {
-    width: 20%;
-    width: -moz-calc(25% - 30px);
-    width: calc(25% - 30px);
-    margin-left: 30px;
-}
-#annotations-overlay {
-    display: none;
-    background: #E2E2E2;
-    opacity: 0.9;
-    height: 100%;
-    width: 30px;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-#annotations-overlay a {
-    display: block;
-    cursor: pointer;
-    margin-top: 50%;
-    width: 190px;
-    height: 30px;
-    line-height: 38px;
-    transform: rotate(-90deg) translate(-85px,-85px);
-    -ms-transform: rotate(-90deg) translate(-85px,-85px); /* IE 9 */
-    -webkit-transform: rotate(-90deg) translate(-85px,-85px); /* Safari and Chrome */
-}
 .annotation {
 	display: block;
 	margin-bottom: 10px;

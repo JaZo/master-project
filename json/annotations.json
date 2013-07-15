@@ -299,7 +299,7 @@
   },
   {
     "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Flag_of_Rome.svg/200px-Flag_of_Rome.svg.png",
-    "article" : "http://nl.m.wikipedia.org/wiki/Rome",
+    "article" : "http://nl.m.wikipedia.org/wiki/Rome_(stad)",
     "annotation" : "http://data.linkedtv.eu/annotation/ea71a113-cbbf-4c07-bbe2-ee09f0a3470a",
     "body" : "http://data.linkedtv.eu/entity/b5344833-f929-4a2a-b4e7-e470ea3cb947",
     "confidence" : "-1.0",
@@ -362,19 +362,6 @@
     "type" : "person"
   },
   {
-    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Leerdam_-_Zuidwal.jpg/200px-Leerdam_-_Zuidwal.jpg",
-    "article" : "http://nl.m.wikipedia.org/wiki/Leerdam",
-    "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
-    "body" : "http://data.linkedtv.eu/entity/fb1ba0a6-9ba4-438d-9131-a449d81dcfba",
-    "confidence" : "-1.0",
-    "endTime" : 993,
-    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
-    "label" : "Leerdam",
-    "relevance" : "0.5",
-    "startTime" : 983,
-    "type" : "location"
-  },
-  {
     "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Wijntje.jpg/200px-Wijntje.jpg",
     "article" : "http://nl.m.wikipedia.org/wiki/Glasfabriek_Leerdam",
     "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
@@ -385,6 +372,19 @@
     "label" : "Glasfabriek Leerdam",
     "relevance" : "0.5",
     "startTime" : 992,
+    "type" : "location"
+  },
+  {
+    "thumbnail" : "http://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Leerdam_-_Zuidwal.jpg/200px-Leerdam_-_Zuidwal.jpg",
+    "article" : "http://nl.m.wikipedia.org/wiki/Leerdam",
+    "annotation" : "http://data.linkedtv.eu/annotation/97c59928-8fc5-4f4b-9efe-a92b609973a5",
+    "body" : "http://data.linkedtv.eu/entity/fb1ba0a6-9ba4-438d-9131-a449d81dcfba",
+    "confidence" : "-1.0",
+    "endTime" : 993,
+    "fragment" : "http://data.linkedtv.eu/media/e2899e7f-67c1-4a08-9146-5a205f6de457#t%3D2496.959,2500.24",
+    "label" : "Leerdam",
+    "relevance" : "0.5",
+    "startTime" : 983,
     "type" : "location"
   },
   {
