@@ -151,6 +151,10 @@ video:focus {
     height: 295px;
     padding: 10px;
 }
+#remote-controls #questionAsked,
+#remote-controls #questionAnswered {
+    float: right;
+}
 #remote-log {
     padding: 10px;
     background: white;

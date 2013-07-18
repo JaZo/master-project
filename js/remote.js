@@ -1,7 +1,7 @@
 var pop;
-var fLatency = 0;
 var sMode;
 var bGotoCalled = false;
+var iQuestionCounter = 1;
 
 $(function(){
 	// set hash with UUID
@@ -80,9 +80,9 @@ $(function(){
             toggleFullScreen(JSON.parse(e.peerData));
         }
     });
-    $(document.body).peerbind(oPeerbindOptions, "stateMode", {
+    $(document.body).peerbind(oPeerbindOptions, "visualLog", {
         peer: function(e){
-            visualLog('R: mode '+e.peerData);
+            visualLog('R: '+e.peerData);
         }
     });
 
@@ -91,6 +91,13 @@ $(function(){
     });
     $('#setModeB').click(function (e) {
         setMode('B');
+    });
+    $('#questionAsked').click(function (e) {
+        visualLog('Question '+iQuestionCounter+' asked');
+    });
+    $('#questionAnswered').click(function (e) {
+        visualLog('Question '+iQuestionCounter+' asked');
+        iQuestionCounter++;
     });
 
     $('#gotoIntroduction').click(function (e) {
@@ -109,7 +116,7 @@ $(function(){
         gotoTime(900);
     });
 
-    // Get current mode
+    // Get current mode by setting a wrong value
     setMode(false);
 
     // Map touch events to mouse events
@@ -127,7 +134,19 @@ function setMode(mode) {
 }
 
 function visualLog(sText) {
-    $('#remote-log').html(sText + '<br>' + $('#remote-log').html());
+    $('#remote-log').html(getDateTime() + ' | ' + sText + '<br>' + $('#remote-log').html());
+}
+
+function getDateTime() {
+    var date = new Date();
+    var sReturn = '';
+    sReturn += date.getFullYear() + '-';
+    sReturn += Mp.Main.pad(date.getMonth(), 2) + '-';
+    sReturn += Mp.Main.pad(date.getDate(), 2) + ' ';
+    sReturn += Mp.Main.pad(date.getHours(), 2) + ':';
+    sReturn += Mp.Main.pad(date.getMinutes(), 2) + ':';
+    sReturn += Mp.Main.pad(date.getSeconds(), 2);
+    return sReturn;
 }
 
 function togglePaused(bPaused) {
