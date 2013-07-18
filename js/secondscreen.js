@@ -77,8 +77,6 @@ $(function(){
 
         switch(action) {
             case 'iframeReady':
-                // Alle secties openen voor baseline
-                openAllSections();
                 if (sMode == "B") {
                     var aAnnotationsInChapter = aAnnotationsAdded[(getCurrentChapter()-1)].slice();
                     var aAnnotationsColorsInChapter = aAnnotationsColors[(getCurrentChapter()-1)].slice();
@@ -175,10 +173,6 @@ function setCurrentPage(sLabel) {
 
 function getCurrentPage() {
     return sCurrentPage;
-}
-
-function openAllSections() {
-    postMessageToIframe('openAllSections');
 }
 
 function colorAnnotations() {
