@@ -86,6 +86,9 @@ $(function(){
                     postMessageToIframe('highlightAnnotations', {labels: aAnnotationsInChapter, colors: aAnnotationsColorsInChapter});
                 }
                 break;
+            case 'visualLog':
+                $(document.body).peertrigger( "visualLog", data);
+                break;
         }
     });
 

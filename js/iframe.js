@@ -36,7 +36,9 @@ $(window).on('message', function(e){
             var element = document.createElement( "a" );
             element.innerHTML = 'Toon hele artikel';
             $(element).click(function(e){
-               showUnrelatedContent();
+                showUnrelatedContent();
+                visualLog('whole article opened');
+                $(element).off('click');
             });
             $header.append(element);
 
@@ -47,6 +49,10 @@ $(window).on('message', function(e){
 
 function postMessageToParent(sAction, mData) {
     Mp.Main.postMessage(sAction, mData || null, sBase, parent);
+}
+
+function visualLog(sText) {
+    postMessageToParent('visualLog', sText);
 }
 
 function openAllSections() {

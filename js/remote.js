@@ -96,7 +96,7 @@ $(function(){
         visualLog('Question '+iQuestionCounter+' asked');
     });
     $('#questionAnswered').click(function (e) {
-        visualLog('Question '+iQuestionCounter+' asked');
+        visualLog('Question '+iQuestionCounter+' answered');
         iQuestionCounter++;
     });
 
