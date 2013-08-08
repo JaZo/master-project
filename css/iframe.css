@@ -15,6 +15,7 @@
 #mw-mf-main-menu-button,
 .search-box,
 #mw-mf-menu-page,
+#page-actions,
 #sjabloon_zie,
 .vatop.infobox,
 .thumb,
@@ -23,6 +24,10 @@
 #commonscat,
 .languageSelector {
     display: none !important;
+}
+
+#section_0 {
+    border: none;
 }
 
 .header {

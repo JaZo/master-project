@@ -26,7 +26,7 @@ $(window).on('message', function(e){
             element.innerHTML = 'Termen gevonden in dit artikel:';
             $header.append(element);
             $header.css('display', 'block');
-            $content.css('margin-top', $header.height() + 20 + 'px');
+            $('#content_wrapper').css('margin-top', $header.height() + 20 + 'px');
 
             $(annotations.labels).each(function(key,value){
                 $content.highlight(value, { wordsOnly: true, className: 'highlight color-'+annotations.colors[key] });
