@@ -4,9 +4,11 @@ $(function(){
     $content = $('#content');
 
     // Remove sections with 'galerij' in the title as this will probably mean it contains only images
-    $content.find('.section').filter(function(index){ return $(this).find("h2:contains('Galerij'), h2:contains('galerij')").length > 0 }).remove();
+    $content.find('> div').not(':first-child').filter(function(index){ return $(this).prev("h2:contains('Galerij'), h2:contains('galerij')").length > 0 }).remove();
+    $content.find("h2:contains('Galerij'), h2:contains('galerij')").remove();
     // Remove 'externe links' sections
-    $content.find('.section').filter(function(index){ return $(this).find("h2:contains('Externe links')").length > 0 }).remove();
+    $content.find('> div').not(':first-child').filter(function(index){ return $(this).prev("h2:contains('Externe links')").length > 0 }).remove();
+    $content.find("h2:contains('Externe links')").remove();
     // Open all sections and disable toggling
     openAllSections();
 
