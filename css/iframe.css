@@ -22,12 +22,18 @@
 .gallerytext,
 .gallerybox,
 #commonscat,
-.languageSelector {
+.languageSelector,
+.edit-page {
     display: none !important;
 }
 
 #section_0 {
     border: none;
+}
+.section_heading {
+    padding-left: 0 !important;
+    background: none !important;
+    cursor: auto !important;
 }
 
 .header {

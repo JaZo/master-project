@@ -56,16 +56,15 @@ function visualLog(sText) {
 }
 
 function openAllSections() {
-    $content.find('.section_heading, .content_block').addClass('openSection');
     // Disable section toggling, needs timeout to work
     setTimeout(function(){
+        $content.find('.section_heading, .content_block').addClass('openSection');
         $content.find('.section_heading').each(function(key, value){
             var old_element = value;
-            $(old_element).css('background', 'none').css('cursor', 'auto');
             var new_element = old_element.cloneNode(true);
             old_element.parentNode.replaceChild(new_element, old_element);
         });
-    }, 2000);
+    }, 500);
 }
 
 function checkAnnotations(aData) {
