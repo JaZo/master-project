@@ -23,12 +23,23 @@
 .gallerybox,
 #commonscat,
 .languageSelector,
+#mw-mf-language-section,
 .edit-page {
     display: none !important;
 }
 
 #section_0 {
     border: none;
+}
+#content h2 {
+    border-bottom: solid 1px #e2e3e4;
+    margin-bottom: 9pt;
+}
+#content > div {
+    border-bottom: solid 1px #e2e3e4;
+}
+#content > div > ul {
+    list-style: square inside;
 }
 .section_heading {
     padding-left: 0 !important;

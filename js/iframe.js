@@ -66,7 +66,7 @@ function openAllSections() {
             var new_element = old_element.cloneNode(true);
             old_element.parentNode.replaceChild(new_element, old_element);
         });
-    }, 500);
+    }, 1000);
 }
 
 function checkAnnotations(aData) {
@@ -87,7 +87,7 @@ function checkAnnotations(aData) {
 }
 
 function addIndicators(sLabel, sClassName) {
-    if ($content.find('.section_heading .'+sClassName).length == 0) {
+    if ($content.find('h2 .'+sClassName).length == 0) {
         //var $headings = $content.find('.section').filter(function(index){ return $(this).find('span.'+sClassName).length > 0 }).children('.section_heading');
         var element = document.createElement( "span" );
         element.innerHTML = sLabel.charAt(0);
@@ -99,19 +99,19 @@ function addIndicators(sLabel, sClassName) {
 
 function hideUnrelatedContent() {
     // Hide whole sections
-    $content.find('.section').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
+    $content.find('> div:not(:first-child)').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide().prev('h2').hide();
     // Hide elements in remaining sections
-    $content.find('.section .content_block > *').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
+    $content.find('> div:not(:first-child) > *').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
     // Hide li-items
-    $content.find('.section .content_block ul li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
+    $content.find('> div:not(:first-child) ul li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
     // Hide li-items in ol-items, but keep numbering
-    $content.find('.section .content_block ol li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).css('height', 0).css('visibility', 'hidden');
+    $content.find('> div:not(:first-child) ol li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).css('height', 0).css('visibility', 'hidden');
 }
 
 function showUnrelatedContent() {
     // Reverse
-    $content.find('.section').filter(function(index){ return $(this).find('span.indicator').filter(':not(:hidden)').length == 0 }).show();
-    $content.find('.section .content_block > *').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).show();
-    $content.find('.section .content_block ul li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).show();
-    $content.find('.section .content_block ol li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).css('height', 'auto').css('visibility', 'visible');
+    $content.find('> div:not(:first-child)').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).show().prev('h2').show();
+    $content.find('> div:not(:first-child) > *').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).show();
+    $content.find('> div:not(:first-child) ul li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).show();
+    $content.find('> div:not(:first-child) ol li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).css('height', 'auto').css('visibility', 'visible');
 }
