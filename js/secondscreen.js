@@ -1,8 +1,7 @@
 var pop;
-var fLatency = 0;
-var bGotoCalled = false;
 var sCurrentPage = null;
 var aAnnotationsAdded = [];
+var aAnnotationsColors = [];
 
 $(function(){
 	// set hash with UUID
@@ -37,33 +36,6 @@ $(function(){
         }
 	});
 
-    pop.on( "play", function(e){
-        togglePaused(false);
-    });
-    pop.on( "pause", function(e){
-        togglePaused(true);
-    });
-    $('.control.play-pause').click(function(){
-        $(document.body).peertrigger( "playpause" );
-    });
-    $('.seeker').drags({
-        cursor: 'pointer',
-        direction:'horizontal',
-        max:{
-            left: $('#seekbar').offset().left,
-            right: $('#seekbar').offset().left + $('#seekbar').width() - $('#seekbar .seeker').width() + 2
-        },
-        onRelease: function(oOffset) {gotoTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')));},
-        onMove: function(oOffset) {updateTime(calculateGotoTime(oOffset.left-$('#seekbar').offset().left, fDuration, $('#seekbar')), $('.time'), true);}
-    });
-    pop.on( "timeupdate", function(e){
-        updateSeeker(pop.currentTime(), fDuration, $('#seekbar'));
-        updateTime(pop.roundTime(), $('.time'));
-    });
-    $('.control.fullscreen').click(function(){
-        $(document.body).peertrigger( "fullscreen" );
-    });
-	
 	// bind events
 	$(document.body).peerbind(oPeerbindOptions, "ready", {
 		peer: function(e){
@@ -74,30 +46,28 @@ $(function(){
     $(document.body).peerbind(oPeerbindOptions, "sync", {
         peer: function(e){
             e.peerData = JSON.parse(e.peerData);
-            console.log('R: sync '+e.peerData.paused);
-            fSeconds = parseFloat(e.peerData.currentTime||0) + fLatency;
+            var fSeconds = parseFloat(e.peerData.currentTime||0);
+            console.log('R: sync '+e.peerData.paused+', '+fSeconds);
             if (e.peerData.paused) {
                 pop.pause(fSeconds);
             } else {
                 pop.play(fSeconds);
             }
-            bGotoCalled = false;
         }
     });
-    $(document.body).peerbind(oPeerbindOptions, "getDuration", {
+    $(document.body).peerbind(oPeerbindOptions, "setMode", {
         peer: function(e){
-            console.log('R: duration '+e.peerData);
-            fDuration = parseFloat(e.peerData||0);
+            console.log('R: mode '+e.peerData);
+            if (e.peerData) {
+                sMode = e.peerData;
+            }
+            if (sMode == "A") {
+                deColorAnnotations();
+            } else if (sMode == "B") {
+                colorAnnotations();
+            }
+            $(document.body).peertrigger( "visualLog", 'mode '+sMode);
         }
-    });
-    $(document.body).peerbind(oPeerbindOptions, "updateFullScreen", {
-        peer: function(e){
-            console.log('R: fullscreen '+e.peerData);
-            toggleFullScreen(JSON.parse(e.peerData));
-        }
-    });
-    $('#annotations-overlay a').click(function (e) {
-        toggleArticles(true);
     });
 
     $(window).on('message', function(e){
@@ -107,38 +77,22 @@ $(function(){
 
         switch(action) {
             case 'iframeReady':
-                postMessageToIframe('checkAnnotations', aAnnotationsAdded[getCurrentChapter()]);
+                $(document.body).peertrigger( "visualLog", 'article loaded, '+getCurrentPage());
+                if (sMode == "B") {
+                    var aAnnotationsInChapter = aAnnotationsAdded[(getCurrentChapter()-1)].slice();
+                    var aAnnotationsColorsInChapter = aAnnotationsColors[(getCurrentChapter()-1)].slice();
+                    aAnnotationsColorsInChapter.splice(aAnnotationsInChapter.indexOf(getCurrentPage()), 1);
+                    aAnnotationsInChapter.splice(aAnnotationsInChapter.indexOf(getCurrentPage()), 1);
+                    postMessageToIframe('highlightAnnotations', {labels: aAnnotationsInChapter, colors: aAnnotationsColorsInChapter});
+                }
                 break;
-            case 'setVisibleAnnotations':
-                var $annotations = $('#annotations-alt');
-                $annotations.find(".annotation").css("position", "absolute").css("left", "-1000px");
-                $(data).each(function(key,value){
-                    if (value != getCurrentPage()) {
-                        $annotations.find('.annotation').filter(function(index){ return $(this).text() == value }).css("position","relative").css("left", 0);
-                    }
-                });
-                // Color the buttons
-                var $visibleannotations = $annotations.find(".annotation").filter(function(index){ return $(this).css("position") == "relative" && $(this).css("display") == "block" });
-                $visibleannotations.each(function(key,value){
-                    $(value).removeClass(function(index, css){
-                        return (css.match(/\bcolor-\S+/g) || []).join(' ');
-                    });
-                    $(value).addClass('color-'+(key+1));
-                    $(value).data('color', (key+1));
-                });
-                // Add page header
-                $annotations.children(":first").find('h2').remove();
-                $annotations.children(":first").children(":first").before("<h2>"+getCurrentPage()+"</h2>");
-                // Move aside the article-links
-                toggleArticles(false);
+            case 'visualLog':
+                $(document.body).peertrigger( "visualLog", data);
                 break;
         }
     });
 
     getAnnotations();
-
-    // Map touch events to mouse events
-    if (window.Touch) $('.seeker').on('touchstart touchmove touchend touchcancel',Mp.Main.touchHandler);
 
 });
 
@@ -159,7 +113,7 @@ function getAnnotations(data) {
                  pop.chapter({
                      start: e.startTime,
                      end: e.endTime,
-                     chapter: i,
+                     chapter: (i+1),
                      label: e.label
                  });
 				 data.startTime = e.startTime;
@@ -176,25 +130,15 @@ function getAnnotations(data) {
                                 if (f.article) {
                                     pop.annotation({
                                         annotation: f.annotation,
-                                        start: f.startTime,
+                                        start: e.startTime, // use chapter startTime
                                         end: e.endTime, // use chapter endTime
                                         label: f.label,
+                                        chapter: (i+1),
                                         //thumbnail: f.thumbnail,
                                         article: f.article
                                     });
+                                    aAnnotationsAdded[i].push(f.label);
                                 }
-                                pop.annotation({
-                                    target:"annotations-alt",
-                                    onclick: function(e, options) {
-                                        highlight(options.label, $(e.target).data('color') || $(e.target).parent().data('color'));
-                                    },
-                                    annotation: f.annotation,
-                                    start: f.startTime,
-                                    end: e.endTime, // use chapter endTime
-                                    label: f.label,
-                                    article: f.article
-                                });
-								aAnnotationsAdded[i].push(f.label);
 							}
 						});
 
@@ -223,75 +167,6 @@ function openArticle(sArticle, $iframe){
     $iframe.attr('src', sUrl);
 }
 
-function highlight(mLabel, iColor) {
-    postMessageToIframe('highlight', {strings: mLabel, className:'color-'+(iColor || 1)});
-}
-
-function unhighlight() {
-    postMessageToIframe('unhighlight');
-}
-
-function togglePaused(bPaused) {
-    if (bPaused) {
-        $('i.ficon-pause').removeClass('ficon-pause').addClass('ficon-play');
-    } else {
-        $('i.ficon-play').removeClass('ficon-play').addClass('ficon-pause');
-    }
-}
-
-function toggleFullScreen(bFullScreen) {
-    if (bFullScreen) {
-        $('i.ficon-expand').removeClass('ficon-expand').addClass('ficon-contract');
-    } else {
-        $('i.ficon-contract').removeClass('ficon-contract').addClass('ficon-expand');
-    }
-}
-
-function toggleArticles(bShow) {
-    var $annotations = $('#annotations'),
-        $annotationsOverlay = $('#annotations-overlay');
-    if (bShow) {
-        $annotations.animate({left:0});
-        $annotationsOverlay.fadeOut();
-    } else {
-        var iWidth = $annotations.width();
-        var iLeft = iWidth * -1 + 30;
-        $annotationsOverlay.find('a').css('margin-top', (($annotations.height() - 190) / 2) + 'px');
-        $annotations.animate({left:iLeft}, 400, function() {
-            $annotationsOverlay.fadeIn();
-        });
-    }
-}
-
-function updateSeeker(fTime, fDuration, $seekbar) {
-    var $seeker = $seekbar.find('.seeker').first();
-    if (!$seeker.hasClass('draggable') && !bGotoCalled) {
-        var fProportion = fTime / fDuration;
-        var iWidth = $seekbar.width() - $seeker.width() + 2;
-        $seeker.css('left', fProportion * iWidth);
-    }
-}
-
-function calculateGotoTime(fOffset, fDuration, $seekbar) {
-    var $seeker = $seekbar.find('.seeker').first();
-    var fProportion = fOffset / ($seekbar.width() - $seeker.width() + 2);
-    return fProportion * fDuration;
-}
-
-function gotoTime(fTime) {
-    bGotoCalled = true;
-    $(document.body).peertrigger( "gotoTime", fTime);
-}
-
-function updateTime(iTime, $time, bForce) {
-    var $seeker = $('#seekbar').find('.seeker').first();
-    if (bForce || (!$seeker.hasClass('draggable') && !bGotoCalled)) {
-        var iMinutes = Math.floor(iTime / 60);
-        var iSeconds = Math.floor(iTime - (iMinutes * 60));
-        $time.text(Mp.Main.pad(iMinutes, 2)+":"+Mp.Main.pad(iSeconds, 2));
-    }
-}
-
 function postMessageToIframe(sAction, mData) {
     Mp.Main.postMessage(sAction, mData || null, sProxyURL, document.getElementById('iframe').contentWindow);
 }
@@ -302,4 +177,29 @@ function setCurrentPage(sLabel) {
 
 function getCurrentPage() {
     return sCurrentPage;
+}
+
+function colorAnnotations() {
+    aAnnotationsColors = [];
+    var $annotations = $('#annotations');
+    // Color the buttons
+    for (var i = 0; i < aAnnotationsAdded.length; i++) {
+        aAnnotationsColors[i] = [];
+        var $annotationlist = $annotations.find(".annotation.chapter-"+(i+1));
+        $annotationlist.each(function(key,value){
+            $(value).removeClass(function(index, css){
+                return (css.match(/\bcolor-\S+/g) || []).join(' ');
+            });
+            $(value).addClass('color-'+(key+1));
+            aAnnotationsColors[i].push((key+1));
+        });
+    }
+}
+
+function deColorAnnotations() {
+    var $annotations = $('#annotations');
+    var $annotationlist = $annotations.find('.annotation');
+    $annotationlist.removeClass(function(index, css){
+        return (css.match(/\bcolor-\S+/g) || []).join(' ');
+    });
 }

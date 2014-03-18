@@ -9,6 +9,7 @@
      * -End is the time that you want this plug-in to stop executing, tho for this plugin an end time may not be needed ( optional )
      * -Target is the id of the DOM element that you want the annotations to appear in. This element must be in the DOM
      * -Annotation is the identifier of the current annotation
+     * -Chapter is the number of the chapter to which it belongs
      * -Label is the content of the current annotation
      * -Thumbnail is the thumbnail of the current annotation ( optional )
      * -Article is the Wikipedia article linked to the current annotation ( optional )
@@ -47,6 +48,9 @@
     contentDiv.style.display = "none";
     contentDiv.id = "annotation-" + options.target + "-" + options.id;
     contentDiv.className = "btn annotation";
+    if (options.chapter) {
+        contentDiv.className = contentDiv.className + " chapter-"+options.chapter;
+    }
 
     if ( target && container ) {
         container.appendChild( contentDiv );
@@ -127,6 +131,12 @@
         elem: "input",
         type: "text",
         label: "Label"
+      },
+      chapter: {
+        elem: "input",
+        type: "number",
+        label: "Chapter",
+        optional: true
       },
       thumbnail: {
         elem: "input",
