@@ -40,7 +40,8 @@
 #commonscat,
 .languageSelector,
 #mw-mf-language-section,
-.edit-page {
+.edit-page,
+.thumbinner {
     display: none !important;
 }
 

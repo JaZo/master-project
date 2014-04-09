@@ -28,6 +28,7 @@ $(function(){
     // Open all sections and disable toggling
     openAllSections();
 
+    visualLog('article loaded, '+$('h1').text());
     postMessageToParent('iframeReady');
 });
 

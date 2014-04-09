@@ -93,7 +93,6 @@ $(function(){
 
         switch(action) {
             case 'iframeReady':
-                $(document.body).peertrigger( "visualLog", 'article loaded, '+getCurrentPage());
                 if (sMode == "B") {
                     var aAnnotationsInChapter = aAnnotationsAdded[(getCurrentChapter()-1)].slice();
                     var aAnnotationsColorsInChapter = aAnnotationsColors[(getCurrentChapter()-1)].slice();
