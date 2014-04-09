@@ -1,18 +1,18 @@
 /*
- Copyright (C) 2014 Jasper Zonneveld
-
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2014 Jasper Zonneveld
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var $content;
 
@@ -82,7 +82,7 @@ function openAllSections() {
             var new_element = old_element.cloneNode(true);
             old_element.parentNode.replaceChild(new_element, old_element);
         });
-    }, 1000);
+    }, 500);
 }
 
 function checkAnnotations(aData) {
@@ -114,14 +114,16 @@ function addIndicators(sLabel, sClassName) {
 }
 
 function hideUnrelatedContent() {
-    // Hide whole sections
-    $content.find('> div:not(:first-child)').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide().prev('h2').hide();
-    // Hide elements in remaining sections
-    $content.find('> div:not(:first-child) > *').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
-    // Hide li-items
-    $content.find('> div:not(:first-child) ul li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
-    // Hide li-items in ol-items, but keep numbering
-    $content.find('> div:not(:first-child) ol li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).css('height', 0).css('visibility', 'hidden');
+    setTimeout(function(){
+        // Hide whole sections
+        $content.find('> div:not(:first-child)').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide().prev('h2').hide();
+        // Hide elements in remaining sections
+        $content.find('> div:not(:first-child) > *').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
+        // Hide li-items
+        $content.find('> div:not(:first-child) ul li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).hide();
+        // Hide li-items in ol-items, but keep numbering
+        $content.find('> div:not(:first-child) ol li').filter(function(index){ return $(this).find('span.highlight').filter(':not(:hidden)').length == 0 }).css('height', 0).css('visibility', 'hidden');
+    }, 500);
 }
 
 function showUnrelatedContent() {

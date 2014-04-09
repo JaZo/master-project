@@ -17,7 +17,7 @@
 .indicator {
     margin-left: 10px;
     display: inline-block;
-    width: 30px;
+    width: 30px !important;
     text-align: center;
     border-radius: 4px;
 }
@@ -68,14 +68,24 @@
     left: 0;
     top: 0;
     width: 100%;
-    padding: 0 20px;
+    padding: 10px 20px;
     display: none;
     text-align: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    background: #f0f1f2;
+    z-index: 1000;
 }
 .header a {
     float: right;
     cursor: pointer;
+    line-height: 30px;
+}
+.header > * {
+    width: auto;
+    display: inline-block;
+}
+.header > *:nth-child(3) {
+    border: none;
 }
